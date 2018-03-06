@@ -17,34 +17,57 @@ public class MoveBoat : MonoBehaviour {
 
     Vector3Int uiPosition;
 
+    int speed = 2;
+
+    Queue<Vector3Int> path;
+
     private void Start()
     {
         uiPosition = new Vector3Int(0, 0, 0);
+        path = new Queue<Vector3Int>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow) && !collisionMap.HasTile(uiPosition + (new Vector3Int(2,0,0))))
+        bool updateCoords = false;
+
+        if (Input.GetKeyDown(KeyCode.RightArrow)
+        && !collisionMap.HasTile(uiPosition + (new Vector3Int(2, 0, 0)))
+        && (Mathf.Abs(xCoordinate + 1 - Camera.main.transform.position.x) < 6))
         {
             xCoordinate++;
+            updateCoords = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && !collisionMap.HasTile(uiPosition + (new Vector3Int(-2, 0, 0))))
+        if (Input.GetKeyDown(KeyCode.LeftArrow)
+            && !collisionMap.HasTile(uiPosition + (new Vector3Int(-2, 0, 0)))
+            && (Mathf.Abs(xCoordinate - 1 - Camera.main.transform.position.x) < 6))
         {
             xCoordinate--;
+            updateCoords = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && !collisionMap.HasTile(uiPosition + (new Vector3Int(0, 2, 0))))
+        if (Input.GetKeyDown(KeyCode.UpArrow) 
+            && !collisionMap.HasTile(uiPosition + (new Vector3Int(0, 2, 0)))
+            && (Mathf.Abs(yCoordinate + 1 - Camera.main.transform.position.y) < 6))
         {
             yCoordinate++;
+            updateCoords = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) && !collisionMap.HasTile(uiPosition + (new Vector3Int(0, -2, 0))))
+        if (Input.GetKeyDown(KeyCode.DownArrow) 
+            && !collisionMap.HasTile(uiPosition + (new Vector3Int(0, -2, 0)))
+            && (Mathf.Abs(yCoordinate - 1 - Camera.main.transform.position.y) < 6))
         {
             yCoordinate--;
+            updateCoords = true;
         }
 
-        uiPosition = new Vector3Int(xCoordinate*2, yCoordinate*2, 0);
+        if (updateCoords)
+        {
+            uiPosition = new Vector3Int(xCoordinate * 2, yCoordinate * 2, 0);
+            path.Enqueue(new Vector3Int(xCoordinate, yCoordinate,0));
+        }
 
         if (!collisionMap.HasTile(uiPosition))
             targetUISprite.transform.position = new Vector2(xCoordinate,yCoordinate);
@@ -52,28 +75,63 @@ public class MoveBoat : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        movement = Vector3.zero;
+        /*movement = Vector3.zero;
 
         if (transform.position.x < xCoordinate)
         {
-            movement += new Vector3(0.125f, 0f, 0f);
+            movement += new Vector3(speed * 0.125f, 0f, 0f);
         }
 
         if (transform.position.x > xCoordinate)
         {
-            movement += new Vector3(-0.125f, 0f, 0f);
+            movement += new Vector3(speed * -0.125f, 0f, 0f);
         }
 
         if (transform.position.y < yCoordinate)
         {
-            movement += new Vector3(0f, 0.125f, 0f);
+            movement += new Vector3(0f, speed * 0.125f, 0f);
         }
 
         if (transform.position.y > yCoordinate)
         {
-            movement += new Vector3(0f, -0.125f, 0f);
+            movement += new Vector3(0f, speed * -0.125f, 0f);
         }
 
-        transform.position += movement;
+        transform.position += movement;*/
+
+
+        if (path.Count > 0)
+        {
+            Vector3Int nextPosition = path.Peek();
+
+            movement = Vector3.zero;
+
+            if (transform.position.x < nextPosition.x)
+            {
+                movement += new Vector3(speed * 0.125f, 0f, 0f);
+            }
+
+            if (transform.position.x > nextPosition.x)
+            {
+                movement += new Vector3(speed * -0.125f, 0f, 0f);
+            }
+
+            if (transform.position.y < nextPosition.y)
+            {
+                movement += new Vector3(0f, speed * 0.125f, 0f);
+            }
+
+            if (transform.position.y > nextPosition.y)
+            {
+                movement += new Vector3(0f, speed * -0.125f, 0f);
+            }
+
+            transform.position += movement;
+
+            if (transform.position == nextPosition)
+            {
+                path.Dequeue();
+            }
+        }
     }    
 }
