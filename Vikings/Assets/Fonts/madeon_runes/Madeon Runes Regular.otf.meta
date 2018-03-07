@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 014bd8884da8737458d1d2b1fbd995f0
+timeCreated: 1520406193
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Madeon Runes Regular
+  fontNames:
+  - Madeon Runes Regular
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

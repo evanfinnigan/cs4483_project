@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 4d4b8c147f77a264c800d7ff80b9fae2
+timeCreated: 1520406193
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Temphis Sweatermonkey
+  fontNames:
+  - Temphis Sweatermonkey
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
