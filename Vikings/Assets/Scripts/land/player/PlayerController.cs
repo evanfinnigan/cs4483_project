@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour {
     public float jumpPower = 100f;
     //public float inAirMovementDampeningFactor = 0.5f;
 
-    // After landing on the ground, after this many seconds the player is able to jump again.
+    // Delay between landing and being able to jump again
     public float jumpDelay = 0.1f;
 
     private bool facingRight = true;
@@ -31,20 +31,22 @@ public class PlayerController : MonoBehaviour {
         // player is able to jump immediately.
         jumpTimer = jumpDelay;
 	}
-	
-	// Update is called once per frame
+
+	// Handle all player movement in FixedUpdate since we're using RBs
 	void FixedUpdate () {
 
-        // Left/Right movement
-        float moveX = Input.GetAxis("Horizontal");
+        // In the air, keep momentum, but can't influence horizontal speed
+        if (IsOnGround()) {
+            // Left/Right movement
+            float moveX = Input.GetAxis("Horizontal");
 
-        //float dampener = onGround ? 1 : inAirMovementDampeningFactor;
-        rb.velocity = new Vector2(moveX * maxSpeed, rb.velocity.y);
+            //float dampener = onGround ? 1 : inAirMovementDampeningFactor;
+            rb.velocity = new Vector2(moveX * maxSpeed, rb.velocity.y);
 
-        if ((moveX > 0 && !facingRight) || (moveX < 0 && facingRight)) {
-            TurnAround();
+            if ((moveX > 0 && !facingRight) || (moveX < 0 && facingRight)) {
+                TurnAround();
+            }
         }
-        
 
         // Jumping stuff
         if(jumpTimer < jumpDelay) {
@@ -52,13 +54,14 @@ public class PlayerController : MonoBehaviour {
         }
 
         if (IsOnGround()) {
-            if (Input.GetAxis("Vertical") > 0 && jumpTimer > jumpDelay) {
+            if (Input.GetAxis("Vertical") > 0 && jumpTimer >= jumpDelay) {
                 // jump
                 rb.AddForce(Vector2.up * jumpPower);
             }
         }
 	}
 
+    // Sprite and Animator will use this to figure out which way to face the player.
     void TurnAround() {
         facingRight = !facingRight;
     }
@@ -68,12 +71,14 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        if(collision.gameObject.tag == PLATFORM_TAG && currentPlatform == null) {
-            if (collision.contacts[0].point.y < collid.bounds.center.y) {
-                // The player object is ABOVE the platform, which means we are "on" it.
-                currentPlatform = collision.gameObject;
-                // Debug.Log("on ground");
 
+        // Detect if the player is standing on a new platform. The player is only "on" one platform at a time.
+        if(collision.gameObject.tag == PLATFORM_TAG && currentPlatform == null) {
+            if (collision.contacts.Length > 0 && 
+                collision.contacts[0].point.y < collid.bounds.center.y) {
+                // The player object is ABOVE the platform, which means we are on it.
+                currentPlatform = collision.gameObject;
+                //Debug.Log("on ground");
                 jumpTimer = 0;
             }
         }
@@ -82,7 +87,7 @@ public class PlayerController : MonoBehaviour {
     private void OnCollisionExit2D(Collision2D collision) {
         if (collision.gameObject == currentPlatform) {
             currentPlatform = null;
-            // Debug.Log("Not on ground");
+            //Debug.Log("Not on ground");
         }
     }
 }
