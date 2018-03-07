@@ -66,7 +66,24 @@ public class MoveBoat : MonoBehaviour {
         if (updateCoords)
         {
             uiPosition = new Vector3Int(xCoordinate * 2, yCoordinate * 2, 0);
-            path.Enqueue(new Vector3Int(xCoordinate, yCoordinate,0));
+
+            Vector3Int addToPath = new Vector3Int(xCoordinate, yCoordinate, 0);
+
+            if (!path.Contains(addToPath))
+            {
+                path.Enqueue(addToPath);
+            }
+            else
+            {
+                Queue<Vector3Int> newPath = new Queue<Vector3Int>();
+                while (path.Peek() != addToPath)
+                {
+                    newPath.Enqueue(path.Dequeue());
+                }
+                newPath.Enqueue(addToPath);
+
+                path = newPath;
+            }
         }
 
         if (!collisionMap.HasTile(uiPosition))
@@ -75,31 +92,6 @@ public class MoveBoat : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        /*movement = Vector3.zero;
-
-        if (transform.position.x < xCoordinate)
-        {
-            movement += new Vector3(speed * 0.125f, 0f, 0f);
-        }
-
-        if (transform.position.x > xCoordinate)
-        {
-            movement += new Vector3(speed * -0.125f, 0f, 0f);
-        }
-
-        if (transform.position.y < yCoordinate)
-        {
-            movement += new Vector3(0f, speed * 0.125f, 0f);
-        }
-
-        if (transform.position.y > yCoordinate)
-        {
-            movement += new Vector3(0f, speed * -0.125f, 0f);
-        }
-
-        transform.position += movement;*/
-
-
         if (path.Count > 0)
         {
             Vector3Int nextPosition = path.Peek();
