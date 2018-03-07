@@ -23,6 +23,7 @@ public class EnemyController : MonoBehaviour {
 
         bool foundPlayer = LookForPlayer();
 
+        // If you know where the player was, or you see him now, chase him
         if(lastSeenPlayerLoc != null || foundPlayer) {
             //Debug.Log("Chasing player to " + lastSeenPlayerLoc);
             // attack them if can, else move to last known loc
@@ -31,7 +32,8 @@ public class EnemyController : MonoBehaviour {
                 lastSeenPlayerLoc = null;
             }
         }
-        else {
+        // Else, patrol if a patrol path is set
+        else if(patrolPoints.Length > 0) {
             Vector2 patrolTarget = patrolPoints[currentPatrolPoint];
             if (!MoveTo(patrolTarget)) {
                 // try to move to the current patrol point. 
