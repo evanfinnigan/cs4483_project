@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 38bfb6c6d2381e64a97842d3c57a1d99
+timeCreated: 1520406193
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: St Charles Hollow
+  fontNames:
+  - St Charles Hollow
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

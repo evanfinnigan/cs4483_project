@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 38dc28db027ab5a4d9b2a912b6f6bd8c
+timeCreated: 1520406193
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: First Order Shadow
+  fontNames:
+  - First Order Shadow
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
