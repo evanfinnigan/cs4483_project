@@ -8,6 +8,11 @@ public class MoveBoat : MonoBehaviour {
     public GameObject targetUISprite;
 
     public Tilemap collisionMap;
+    public Tilemap portMap;
+    public Tilemap monsterMap;
+
+    public GameObject portUI;
+    public GameObject monsterUI;
 
     int xCoordinate = 0;
     int yCoordinate = 0;
@@ -62,7 +67,21 @@ public class MoveBoat : MonoBehaviour {
             yCoordinate--;
             updateCoords = true;
         }
-
+        if (portMap.HasTile(uiPosition))
+        {
+            portUI.SetActive(true);
+            monsterUI.SetActive(false);
+        }
+        else if (monsterMap.HasTile(uiPosition))
+        {
+            monsterUI.SetActive(true);
+            portUI.SetActive(false);
+        }
+        else
+        {
+            portUI.SetActive(false);
+            monsterUI.SetActive(false);
+        }
         if (updateCoords)
         {
             uiPosition = new Vector3Int(xCoordinate * 2, yCoordinate * 2, 0);
@@ -84,10 +103,9 @@ public class MoveBoat : MonoBehaviour {
 
                 path = newPath;
             }
-        }
 
-        if (!collisionMap.HasTile(uiPosition))
-            targetUISprite.transform.position = new Vector2(xCoordinate,yCoordinate);
+            targetUISprite.transform.position = new Vector2(xCoordinate, yCoordinate);
+        }        
     }
 
     private void FixedUpdate()
