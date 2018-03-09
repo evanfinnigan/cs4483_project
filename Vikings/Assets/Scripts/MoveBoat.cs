@@ -17,7 +17,7 @@ public class MoveBoat : MonoBehaviour {
 
     Vector3Int uiPosition;
 
-    int speed = 2;
+    int speed = 4;
 
     Queue<Vector3Int> path;
 
@@ -33,7 +33,7 @@ public class MoveBoat : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.RightArrow)
         && !collisionMap.HasTile(uiPosition + (new Vector3Int(2, 0, 0)))
-        && (Mathf.Abs(xCoordinate + 1 - Camera.main.transform.position.x) < 6))
+        && (Mathf.Abs(xCoordinate + 1 - Camera.main.transform.position.x) < 2*CameraFollow.width))
         {
             xCoordinate++;
             updateCoords = true;
@@ -41,7 +41,7 @@ public class MoveBoat : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.LeftArrow)
             && !collisionMap.HasTile(uiPosition + (new Vector3Int(-2, 0, 0)))
-            && (Mathf.Abs(xCoordinate - 1 - Camera.main.transform.position.x) < 6))
+            && (Mathf.Abs(xCoordinate - 1 - Camera.main.transform.position.x) < 2*CameraFollow.width))
         {
             xCoordinate--;
             updateCoords = true;
@@ -49,7 +49,7 @@ public class MoveBoat : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.UpArrow) 
             && !collisionMap.HasTile(uiPosition + (new Vector3Int(0, 2, 0)))
-            && (Mathf.Abs(yCoordinate + 1 - Camera.main.transform.position.y) < 6))
+            && (Mathf.Abs(yCoordinate + 1 - Camera.main.transform.position.y) < 2*CameraFollow.height))
         {
             yCoordinate++;
             updateCoords = true;
@@ -57,7 +57,7 @@ public class MoveBoat : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.DownArrow) 
             && !collisionMap.HasTile(uiPosition + (new Vector3Int(0, -2, 0)))
-            && (Mathf.Abs(yCoordinate - 1 - Camera.main.transform.position.y) < 6))
+            && (Mathf.Abs(yCoordinate - 1 - Camera.main.transform.position.y) < 2*CameraFollow.height))
         {
             yCoordinate--;
             updateCoords = true;
@@ -100,22 +100,22 @@ public class MoveBoat : MonoBehaviour {
 
             if (transform.position.x < nextPosition.x)
             {
-                movement += new Vector3(speed * 0.125f, 0f, 0f);
+                movement += new Vector3(speed * 0.0625f, 0f, 0f);
             }
 
             if (transform.position.x > nextPosition.x)
             {
-                movement += new Vector3(speed * -0.125f, 0f, 0f);
+                movement += new Vector3(speed * -0.0625f, 0f, 0f);
             }
 
             if (transform.position.y < nextPosition.y)
             {
-                movement += new Vector3(0f, speed * 0.125f, 0f);
+                movement += new Vector3(0f, speed * 0.0625f, 0f);
             }
 
             if (transform.position.y > nextPosition.y)
             {
-                movement += new Vector3(0f, speed * -0.125f, 0f);
+                movement += new Vector3(0f, speed * -0.0625f, 0f);
             }
 
             transform.position += movement;

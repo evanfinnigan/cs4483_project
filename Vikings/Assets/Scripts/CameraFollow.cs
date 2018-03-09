@@ -6,8 +6,8 @@ public class CameraFollow : MonoBehaviour {
 
     public Transform target;
 
-    int width = 4;
-    int height = 4;
+    public static int width = 5;
+    public static int height = 5;
 
 	void FixedUpdate () {
 
