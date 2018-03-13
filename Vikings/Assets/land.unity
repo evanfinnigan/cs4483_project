@@ -476,7 +476,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &881683949
 Rigidbody2D:
@@ -509,13 +509,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3b3f8df60c59824d9184421dd4885ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 1
+  projectileCooldown: 1
   maxSpeed: 10
   jumpPower: 100
   jumpDelay: 0.1
-  projectileVelocity: {x: 8, y: 0}
-  projectilePrefab: {fileID: 1494309937607826, guid: 6af985fee48d19740b88b8141988f6d1,
-    type: 2}
-  projectileCooldown: 1
 --- !u!1001 &976188318
 Prefab:
   m_ObjectHideFlags: 0
@@ -568,6 +566,11 @@ Prefab:
     - target: {fileID: 1494309937607826, guid: 6af985fee48d19740b88b8141988f6d1, type: 2}
       propertyPath: m_Name
       value: projectile-inscene
+      objectReference: {fileID: 0}
+    - target: {fileID: 50909471200311638, guid: 6af985fee48d19740b88b8141988f6d1,
+        type: 2}
+      propertyPath: m_Constraints
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6af985fee48d19740b88b8141988f6d1, type: 2}
@@ -812,6 +815,49 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!1 &1589782033
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1589782035}
+  - component: {fileID: 1589782034}
+  m_Layer: 0
+  m_Name: projectileManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1589782034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1589782033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb8710c70a1841243aeeb1413ccf9cdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileVelocity: {x: 8, y: 0}
+  projectilePrefab: {fileID: 1494309937607826, guid: 6af985fee48d19740b88b8141988f6d1,
+    type: 2}
+--- !u!4 &1589782035
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1589782033}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1748730851
 GameObject:
   m_ObjectHideFlags: 0
@@ -959,13 +1005,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1902403780}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6537456e86466a74496d96d0dacaf2a3, type: 3}
+  m_Script: {fileID: 11500000, guid: 28609a77e3c97824486faac39140e63d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 1
+  projectileCooldown: 1
   speed: 0.25
   turnSpeed: 40
   patrolPoints:
-  - {x: 5, y: -4}
+  - {x: 8, y: -4}
   - {x: 12, y: -4}
 --- !u!58 &1902403782
 CircleCollider2D:
@@ -1057,7 +1105,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1930986515
 GameObject:

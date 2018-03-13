@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyController : MonoBehaviour {
+public class EnemyController : ActorController {
 
     public float speed = 0.25f;
     public float turnSpeed = 40f;

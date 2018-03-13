@@ -3,25 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : MonoBehaviour {
-
-    const string PLATFORM_TAG = "platform";
-    const string ENEMY_TAG = "enemy";
+public class PlayerController : ActorController {
 
     //Movement
     private float jumpTimer;
     public float maxSpeed = 10f;
     public float jumpPower = 100f;
-    public float jumpDelay = 0.1f; // Delay between landing and being able to jump again
-    private bool facingRight = true;
-    //public float inAirMovementDampeningFactor = 0.5f;
-
-    //Projectiles - This stuff should be moved out of this class.
-    public Vector2 projectileVelocity;
-    public GameObject projectilePrefab;
-    public float projectileCooldown = 1f;
-    private bool canShoot = true;
-    private Vector2 projectileOffset = new Vector2(0.4f, 0.1f);
+    public float jumpDelay = 0.1f;      // Delay between landing and being able to jump again
 
     private Rigidbody2D rb;
 
@@ -72,35 +60,15 @@ public class PlayerController : MonoBehaviour {
     void Update() {
         //Space button to shoot only if cooldown allows it
         if (Input.GetButtonDown("Jump") && canShoot) {
-            int direction = facingRight ? 1 : -1;
-
-            // match projectile rotation and direction to player's
-            Vector3 eulers = transform.rotation.eulerAngles;
-            // The projectile sprite is rotated 45 degrees up. It would be better to fix this in the editor.
-            eulers.z -= 45 * direction;
-
-            //Create a projectile object
-            GameObject projectile = Instantiate(projectilePrefab,
-                    (Vector2)transform.position + direction * projectileOffset * rb.transform.localScale.x,
-                    Quaternion.Euler(eulers.x, eulers.y, eulers.z));
-
-            //Set its velocity in the directon of movement
-            projectile.GetComponent<Rigidbody2D>().velocity = 
-                    new Vector2(direction * projectileVelocity.x * rb.transform.localScale.x, 
-                    projectileVelocity.y);
-
-            projectile.GetComponent<SpriteRenderer>().flipX = !facingRight;
-
-            //start cooldown timer
-            StartCoroutine(ToggleCanShoot());
+            Shoot();
         }
     }
 
-    //Toggles the canShoot variable to false for [cooldown] amount of seconds
-    IEnumerator ToggleCanShoot() {
-        canShoot = false;
-        yield return new WaitForSeconds(projectileCooldown);
-        canShoot = true;
+    void Shoot() {
+        ProjectileManager.instance().NewProjectile(transform, facingRight);
+
+        //start cooldown timer
+        StartCoroutine(ToggleCanShoot());
     }
 
     // Sprite and Animator will use this to figure out which way to face the player.
@@ -150,4 +118,6 @@ public class PlayerController : MonoBehaviour {
             Debug.Log("Not on ground");
         }
     }
+
+
 }
