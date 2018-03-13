@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour {
     private bool facingRight = true;
     //public float inAirMovementDampeningFactor = 0.5f;
 
-    //Projectiles
+    //Projectiles - This stuff should be moved out of this class.
     public Vector2 projectileVelocity;
     public GameObject projectilePrefab;
     public float projectileCooldown = 1f;
@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour {
     private Vector2 projectileOffset = new Vector2(0.4f, 0.1f);
 
     private Rigidbody2D rb;
-    private Collider2D collid;
 
     // Tracked by CollisionEnter/Exit
     private GameObject currentPlatform;
@@ -32,7 +31,6 @@ public class PlayerController : MonoBehaviour {
     // Use this for initialization
     void Start() {
         rb = GetComponent<Rigidbody2D>();
-        collid = GetComponent<Collider2D>();
 
         // player is able to jump immediately.
         jumpTimer = jumpDelay;
@@ -42,6 +40,7 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate() {
         // In the air, keep momentum, but can't influence horizontal speed
         if (IsOnGround()) {
+            //Debug.Log("ground");
             // Left/Right movement
             float moveX = Input.GetAxis("Horizontal");
 
@@ -52,6 +51,9 @@ public class PlayerController : MonoBehaviour {
                 TurnAround();
             }
         }
+        else {
+            Debug.Log("floaty");
+        }
 
         // Jumping stuff
         if (jumpTimer < jumpDelay) {
@@ -59,6 +61,7 @@ public class PlayerController : MonoBehaviour {
         }
 
         if (IsOnGround()) {
+            // make sure to update jumpTimer before this
             if (Input.GetAxis("Vertical") > 0 && jumpTimer >= jumpDelay) {
                 // jump
                 rb.AddForce(Vector2.up * jumpPower);
@@ -69,14 +72,24 @@ public class PlayerController : MonoBehaviour {
     void Update() {
         //Space button to shoot only if cooldown allows it
         if (Input.GetButtonDown("Jump") && canShoot) {
+            int direction = facingRight ? 1 : -1;
+
+            // match projectile rotation and direction to player's
+            Vector3 eulers = transform.rotation.eulerAngles;
+            // The projectile sprite is rotated 45 degrees up. It would be better to fix this in the editor.
+            eulers.z -= 45 * direction;
+
             //Create a projectile object
             GameObject projectile = Instantiate(projectilePrefab,
-                    (Vector2)transform.position + projectileOffset * rb.transform.localScale.x,
-                    Quaternion.identity);
+                    (Vector2)transform.position + direction * projectileOffset * rb.transform.localScale.x,
+                    Quaternion.Euler(eulers.x, eulers.y, eulers.z));
 
             //Set its velocity in the directon of movement
-            projectile.GetComponent<Rigidbody2D>().velocity =
-                new Vector2(projectileVelocity.x * rb.transform.localScale.x, projectileVelocity.y);
+            projectile.GetComponent<Rigidbody2D>().velocity = 
+                    new Vector2(direction * projectileVelocity.x * rb.transform.localScale.x, 
+                    projectileVelocity.y);
+
+            projectile.GetComponent<SpriteRenderer>().flipX = !facingRight;
 
             //start cooldown timer
             StartCoroutine(ToggleCanShoot());
@@ -93,6 +106,7 @@ public class PlayerController : MonoBehaviour {
     // Sprite and Animator will use this to figure out which way to face the player.
     void TurnAround() {
         facingRight = !facingRight;
+        //Debug.Log("Now" + (facingRight ? "" : " not") + " facing right");
     }
 
     bool IsOnGround() {
@@ -101,19 +115,21 @@ public class PlayerController : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision) {
 
+        //Debug.Log("player begin colliding");
         if (collision.contacts.Length > 0) {
             // Detect if the player is standing on a new platform. The player is only "on" one platform at a time.
             if (collision.gameObject.tag == PLATFORM_TAG && currentPlatform == null) {
-                if (collision.contacts[0].point.y < collid.bounds.center.y) {
+                // The other collider is the player's
+                if (collision.contacts[0].point.y < collision.otherCollider.bounds.center.y) {
                     // The player object is ABOVE the platform, which means we are on it.
                     currentPlatform = collision.gameObject;
-                    //Debug.Log("on ground");
+                    Debug.Log("on ground");
                     jumpTimer = 0;
                 }
             }
             else if (collision.gameObject.tag == ENEMY_TAG) {
                 //Taking a hit from an enemy pushes you back in the opposite direction
-                if (collision.contacts[0].point.x > collid.bounds.center.x) {
+                if (collision.contacts[0].point.x > collision.otherCollider.bounds.center.x) {
                     rb.AddForce(new Vector2(-1, 1) * jumpPower);
                 }
                 else {
@@ -123,10 +139,15 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    private void OnCollisionStay2D(Collision2D collision) {
+        // Debug.Log("player staying colliding");
+        // OnCollisionEnter2D(collision);
+    }
+
     private void OnCollisionExit2D(Collision2D collision) {
         if (collision.gameObject == currentPlatform) {
             currentPlatform = null;
-            //Debug.Log("Not on ground");
+            Debug.Log("Not on ground");
         }
     }
 }
