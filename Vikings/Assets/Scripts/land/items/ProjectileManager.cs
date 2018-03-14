@@ -24,6 +24,13 @@ public class ProjectileManager : MonoBehaviour {
         }
         _instance = this;
 
+        /*
+        Object[] loaded = Resources.LoadAll("Art/land/");
+        Debug.Log("Loaded " + loaded.Length + " items");
+        foreach(Object o in loaded) {
+            Debug.Log("Loaded " + o.name);
+        }*/
+
         // projectileOffset = projectilePrefab.collider2D.
     }
 
@@ -48,9 +55,16 @@ public class ProjectileManager : MonoBehaviour {
         //Create a projectile object
         GameObject projectile = Instantiate(projectilePrefab,
                 (Vector2)shooter.position + direction * projectileOffset * shooter.localScale.x,
-                Quaternion.Euler(eulers.x, eulers.y, eulers.z));
+                Quaternion.Euler(eulers.x, eulers.y, eulers.z));    
 
-        if(projectile.GetComponent<Projectile>() == null) {
+        /*
+        GameObject projectile = UnityEditor.PrefabUtility.InstantiatePrefab(projectilePrefab) as GameObject;
+
+        projectile.transform.position = (Vector2)shooter.position + direction * projectileOffset * shooter.localScale.x;
+        projectile.transform.rotation = Quaternion.Euler(eulers);
+        */
+
+        if (projectile.GetComponent<Projectile>() == null) {
             Debug.LogError("Error: projectilePrefab is not a projectile!");
         }
 
@@ -62,5 +76,7 @@ public class ProjectileManager : MonoBehaviour {
         // flip the sprite in X if facing left
         // Keep in mind the SpriteRenderer is on a child GO of the projectile.
         projectile.GetComponentInChildren<SpriteRenderer>().flipX = !facingRight;
+
+        //Debug.Break();
     }
 }
