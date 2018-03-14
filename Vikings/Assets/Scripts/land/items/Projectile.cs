@@ -22,19 +22,14 @@ public class Projectile : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision) {
         ActorController actor = collision.gameObject.GetComponent<ActorController>();
         if(actor != null) {
-            // ignore projectiles that are just chillin
-            if(rb.velocity.x != 0) {
-                actor.GetShot(damage);
-                Destroy(gameObject);
-            }
+            Debug.Log("Projectile hit an actor and the projectile's velocity is " + rb.velocity);
+            actor.GetShot(damage);
+            Destroy(gameObject);
         }
         // Hit something other than an actor
         else if(collision.gameObject.tag == ActorController.PLATFORM_TAG) {
             Debug.Log("Bullet hit " + collision.gameObject.name);
-            // Let gravity do its work; this causes the projectiles to fall to the ground
-            rb.velocity = Vector2.zero;
-            rb.gravityScale = 1;
-            //Destroy(gameObject);
+;           Destroy(gameObject);
         }
     }
 }

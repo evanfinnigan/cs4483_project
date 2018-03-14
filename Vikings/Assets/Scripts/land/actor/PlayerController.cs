@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class PlayerController : ActorController {
 
     //Movement
@@ -12,13 +13,16 @@ public class PlayerController : ActorController {
     public float jumpDelay = 0.1f;      // Delay between landing and being able to jump again
 
     private Rigidbody2D rb;
+    private SpriteRenderer sprenderer;
 
     // Tracked by CollisionEnter/Exit
     private GameObject currentPlatform;
 
+
     // Use this for initialization
     void Start() {
         rb = GetComponent<Rigidbody2D>();
+        sprenderer = GetComponent<SpriteRenderer>();
 
         // player is able to jump immediately.
         jumpTimer = jumpDelay;
@@ -59,7 +63,7 @@ public class PlayerController : ActorController {
 
     void Update() {
         //Space button to shoot only if cooldown allows it
-        if (Input.GetButtonDown("Jump") && canShoot) {
+        if (Input.GetButton("Jump") && canShoot) {
             Shoot();
         }
     }
@@ -74,7 +78,15 @@ public class PlayerController : ActorController {
     // Sprite and Animator will use this to figure out which way to face the player.
     void TurnAround() {
         facingRight = !facingRight;
-        //Debug.Log("Now" + (facingRight ? "" : " not") + " facing right");
+        sprenderer.flipX = !facingRight;
+
+        // move the eye to show where the player is facing :P
+        // Assumes eye is the only child GO of player!
+        // temporary until we have a real sprite...
+        Transform eye = GameObject.Find("playerEye").transform;
+        eye.localPosition = new Vector3(-eye.localPosition.x, eye.localPosition.y, eye.localPosition.z);
+
+        Debug.Log("Now" + (facingRight ? "" : " not") + " facing right");
     }
 
     bool IsOnGround() {

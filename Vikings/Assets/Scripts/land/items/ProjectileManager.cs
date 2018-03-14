@@ -37,9 +37,12 @@ public class ProjectileManager : MonoBehaviour {
 
         // Be careful not to use 'transform' here, use 'shooter' instead.
 
+        Debug.Log("prefab rot " + projectilePrefab.transform.rotation);
         // match projectile rotation and direction to player's
-        Vector3 eulers = shooter.rotation.eulerAngles;
-        // The projectile sprite is rotated 45 degrees up. It would be better to fix this in the editor.
+        Vector3 eulers = new Vector3(shooter.rotation.eulerAngles.x, shooter.rotation.eulerAngles.y, 
+            projectilePrefab.transform.rotation.z);
+        // The projectile sprite is rotated 45 degrees up. It would be better to fix this in the editor,
+        // but apparently rotating the prefab doesn't work
         eulers.z -= 45 * direction;
 
         //Create a projectile object
