@@ -60,6 +60,7 @@ public class ProjectileManager : MonoBehaviour {
                 projectileVelocity.y);
 
         // flip the sprite in X if facing left
-        projectile.GetComponent<SpriteRenderer>().flipX = !facingRight;
+        // Keep in mind the SpriteRenderer is on a child GO of the projectile.
+        projectile.GetComponentInChildren<SpriteRenderer>().flipX = !facingRight;
     }
 }
