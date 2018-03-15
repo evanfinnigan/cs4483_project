@@ -14,12 +14,13 @@ public class EnemyController : ActorController {
     private Vector2? lastSeenPlayerLoc;
 
     // Use this for initialization
-    void Start() {
-
+    new protected void Start() {
+        base.Start();
     }
 
     // Movement in FixedUpdate
-    void FixedUpdate() {
+    new protected void FixedUpdate() {
+        base.FixedUpdate();
 
         bool foundPlayer = LookForPlayer();
 
