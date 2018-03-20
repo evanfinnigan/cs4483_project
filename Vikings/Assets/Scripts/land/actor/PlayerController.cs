@@ -15,6 +15,8 @@ public class PlayerController : ActorController {
     private Rigidbody2D rb;
     private SpriteRenderer sprenderer;
 
+    Animator anim;
+
     // Tracked by CollisionEnter/Exit
     private GameObject currentPlatform;
 
@@ -23,6 +25,7 @@ public class PlayerController : ActorController {
     void Start() {
         rb = GetComponent<Rigidbody2D>();
         sprenderer = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
 
         // player is able to jump immediately.
         jumpTimer = jumpDelay;
@@ -62,6 +65,8 @@ public class PlayerController : ActorController {
     }
 
     void Update() {
+        anim.SetFloat("speed", rb.velocity.magnitude);
+        anim.SetBool("jumping", !IsOnGround());
         //Space button to shoot only if cooldown allows it
         if (Input.GetButton("Jump") && canShoot) {
             Shoot();
