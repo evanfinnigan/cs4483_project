@@ -15,16 +15,25 @@ public class ActorController : MonoBehaviour {
     public float projectileCooldown = 1f;
 
     // Use this for initialization
-    void Start() {
+    protected void Start() {
 
     }
 
     // Update is called once per frame
-    void Update() {
-
+    protected void Update() {
+        //Debug.Log("Updating controller for " + name);
+        //Debug.Log(transform.position);
+        if(transform.position.y < -15) {
+            Debug.Log(name + " fell off the map");
+            Destroy(gameObject);
+        }
     }
-    
-    
+
+    protected void FixedUpdate() {
+        
+    }
+
+
     //Toggles the canShoot variable to false for [cooldown] amount of seconds
     protected IEnumerator ToggleCanShoot() {
         canShoot = false;

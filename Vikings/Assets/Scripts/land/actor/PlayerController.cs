@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Animator))]
 public class PlayerController : ActorController {
 
     //Movement
@@ -15,24 +16,28 @@ public class PlayerController : ActorController {
     private Rigidbody2D rb;
     private SpriteRenderer sprenderer;
 
-    Animator anim;
+    private Animator animator;
 
     // Tracked by CollisionEnter/Exit
     private GameObject currentPlatform;
 
 
     // Use this for initialization
-    void Start() {
+    new protected void Start() {
+        base.Start();
+
         rb = GetComponent<Rigidbody2D>();
         sprenderer = GetComponent<SpriteRenderer>();
-        anim = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
 
         // player is able to jump immediately.
         jumpTimer = jumpDelay;
     }
 
     // Handle all player movement in FixedUpdate since we're using RBs
-    void FixedUpdate() {
+    new protected void FixedUpdate() {
+        base.FixedUpdate();
+
         // In the air, keep momentum, but can't influence horizontal speed
         if (IsOnGround()) {
             //Debug.Log("ground");
@@ -47,7 +52,7 @@ public class PlayerController : ActorController {
             }
         }
         else {
-            Debug.Log("floaty");
+            //Debug.Log("floaty");
         }
 
         // Jumping stuff
@@ -64,9 +69,12 @@ public class PlayerController : ActorController {
         }
     }
 
-    void Update() {
-        anim.SetFloat("speed", rb.velocity.magnitude);
-        anim.SetBool("jumping", !IsOnGround());
+    new protected void Update() {
+        base.Update();
+        
+        animator.SetFloat("speed", rb.velocity.magnitude);
+        animator.SetBool("jumping", !IsOnGround());
+
         //Space button to shoot only if cooldown allows it
         if (Input.GetButton("Jump") && canShoot) {
             Shoot();
@@ -83,12 +91,7 @@ public class PlayerController : ActorController {
     // Sprite and Animator will use this to figure out which way to face the player.
     void TurnAround() {
         facingRight = !facingRight;
-        sprenderer.flipX = !facingRight;
-
-        // move the eye to show where the player is facing :P
-        // temporary until we have a real sprite.
-        Transform eye = GameObject.Find("playerEye").transform;
-        eye.localPosition = new Vector3(-eye.localPosition.x, eye.localPosition.y, eye.localPosition.z);
+        transform.Rotate(new Vector3(0, 0, 180));
 
         Debug.Log("Now" + (facingRight ? "" : " not") + " facing right");
     }
@@ -102,7 +105,7 @@ public class PlayerController : ActorController {
         //Debug.Log("player begin colliding");
         if (collision.contacts.Length > 0) {
             // Detect if the player is standing on a new platform. The player is only "on" one platform at a time.
-            if (collision.gameObject.tag == PLATFORM_TAG && currentPlatform == null) {
+            //if (collision.gameObject.tag == PLATFORM_TAG && currentPlatform == null) {
                 // The other collider is the player's
                 if (collision.contacts[0].point.y < collision.otherCollider.bounds.center.y) {
                     // The player object is ABOVE the platform, which means we are on it.
@@ -110,8 +113,8 @@ public class PlayerController : ActorController {
                     Debug.Log("on ground");
                     jumpTimer = 0;
                 }
-            }
-            else if (collision.gameObject.tag == ENEMY_TAG) {
+            //}
+            if (collision.gameObject.tag == ENEMY_TAG) {
                 //Taking a hit from an enemy pushes you back in the opposite direction
                 if (collision.contacts[0].point.x > collision.otherCollider.bounds.center.x) {
                     rb.AddForce(new Vector2(-1, 1) * jumpPower);
