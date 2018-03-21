@@ -6,29 +6,42 @@ public class CameraFollow : MonoBehaviour {
 
     public Transform target;
 
+    public bool retro;
     public static int width = 5;
     public static int height = 5;
 
-	void FixedUpdate () {
+    public int xOffset;
+    public int yOffset;
 
-		if (transform.position.x - target.position.x < -1*width)
+    float bias = 0.5f;
+
+    void FixedUpdate () {
+
+        if (retro)
         {
-            StartCoroutine(MoveCameraRightCo());
+            if (transform.position.x - target.position.x < -1 * width)
+            {
+                StartCoroutine(MoveCameraRightCo());
+            }
+
+            if (transform.position.x - target.position.x > width)
+            {
+                StartCoroutine(MoveCameraLeftCo());
+            }
+
+            if (transform.position.y - target.position.y < -1 * height)
+            {
+                StartCoroutine(MoveCameraDownCo());
+            }
+
+            if (transform.position.y - target.position.y > height)
+            {
+                StartCoroutine(MoveCameraUpCo());
+            }
         }
-
-        if (transform.position.x - target.position.x > width)
+        else
         {
-            StartCoroutine(MoveCameraLeftCo());
-        }
-
-        if (transform.position.y - target.position.y < -1*height)
-        {
-            StartCoroutine(MoveCameraDownCo());
-        }
-
-        if (transform.position.y - target.position.y > height)
-        {
-            StartCoroutine(MoveCameraUpCo());
+            transform.position = (bias)*transform.position + (1f-bias)*(new Vector3(target.position.x + xOffset, target.position.y + yOffset, transform.position.z));
         }
 
     }
