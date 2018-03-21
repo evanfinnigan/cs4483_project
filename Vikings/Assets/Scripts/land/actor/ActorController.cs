@@ -11,13 +11,16 @@ public class ActorController : MonoBehaviour {
     protected Rigidbody2D rb;
     protected SpriteRenderer sprenderer;
     protected Animator animator;
+    protected MeleeHitbox[] meleeHitboxes;
 
     public int hp = 1;
 
     protected bool canShoot = true;
     protected bool canMelee = true;
 
-    // TODO set this properly
+    // TODO set this properly - IE check the actor's heading to see if they are looking in the negative (left)
+    // or positive (right) direction instead of assuming they are looking right.
+    // This variable and TurnAround() are not used by enemies yet.
     protected bool facingRight = true;
 
     protected float projectileCooldown = 1f;
@@ -28,7 +31,7 @@ public class ActorController : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         sprenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-
+        meleeHitboxes = gameObject.GetComponentsInChildren<MeleeHitbox>(true);
     }
 
     // Update is called once per frame
@@ -43,6 +46,12 @@ public class ActorController : MonoBehaviour {
 
     protected void FixedUpdate() {
         
+    }
+
+    protected void TurnAround() {
+        facingRight = !facingRight;
+        sprenderer.flipX = !facingRight;
+        Debug.Log("Now" + (facingRight ? "" : " not") + " facing right");
     }
 
     protected void RangedAttack() {
@@ -96,8 +105,20 @@ public class ActorController : MonoBehaviour {
     // but NOT if it has a BOOL parameter.
     protected void ToggleMeleeHitbox(int newState) {
         Debug.Log("Toggling melee hitboxes");
-        foreach(MeleeHitbox hitboxChild in gameObject.GetComponentsInChildren<MeleeHitbox>(true)) {
-            hitboxChild.gameObject.SetActive(0 != newState);
+        foreach(MeleeHitbox hb in meleeHitboxes) {
+            bool on = 0 != newState;
+            hb.gameObject.SetActive(on);
+
+            if(on) {
+                // Adjust the hitbox's position to match the direction the player is facing
+                if(facingRight) {
+                    hb.transform.localPosition = new Vector2(hb.GetRightXLocalPosition(), hb.transform.localPosition.y);
+                }
+                else {
+                    hb.transform.localPosition = new Vector2(hb.leftXLocalPosition, hb.transform.localPosition.y);
+                }
+                Debug.Log("Moved HB to " + hb.transform.localPosition);
+            }
         }
     }
 
@@ -110,7 +131,7 @@ public class ActorController : MonoBehaviour {
     }
 
     public bool IsAlive() {
-        return hp > 0;
+        return this != null && hp > 0;
     }
 
     public void Die() {

@@ -6,10 +6,17 @@ using UnityEngine;
 public class MeleeHitbox : MonoBehaviour {
 
     public int damage = 1;
-    public int hKnockback = 1;
-    public int vKnockback = 1;
+    public int hKnockback = 100;
+    public int vKnockback = 100;
 
-    public static 
+    // Set the hitbox's x position in the editor to match the hitbox on the sprite's right side.
+    // Then set this variable to the x position which matches the hitbox on the sprite's LEFT side.
+    // When the actor turns around, the hitbox's position will swap.
+    public float leftXLocalPosition;
+    private float rightXLocalPosition;
+
+    // The character holding the melee weapon - can be set in editor
+    public ActorController holder;
 
     //private Collider2D collid;
 
@@ -18,32 +25,21 @@ public class MeleeHitbox : MonoBehaviour {
     // Use this for initialization
     void Start() {
         //collid = GetComponent<Collider2D>();
+        if(holder == null) {
+            holder = GetComponentInParent<ActorController>();
+            if(holder == null) {
+                Debug.LogError("Couldn't find actor holding weapon " + name);
+            }
+        }
+
+        if(rightXLocalPosition == 0) {
+            rightXLocalPosition = transform.localPosition.x;
+        }
     }
 
     // Update is called once per frame
     void Update() {
 
-    }
-
-    private void OnEnable() {
-        Debug.Log(name + " enable");
-        //Debug.Break();
-        //if (initialized) {
-        //    StartCoroutine(DisableSelfInOneFrame());
-        //}
-        //else {
-        //    initialized = true;
-        //}
-    }
-
-    private IEnumerator DisableSelfInOneFrame() {
-        yield return 0;
-        Debug.Log("Disabling self");
-        enabled = false;
-    }
-
-    private void OnDisable() {
-        Debug.Log(name + " disable");
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -60,15 +56,22 @@ public class MeleeHitbox : MonoBehaviour {
 
                 // Sometimes collision.contacts.Length == 0 for some reason - need to investigate
                 // Collision.contacts documentation says should always be at least 1
+                /*
                 if (collision.contacts.Length > 0 && 
-                    collision.contacts[0].point.x > collision.otherCollider.bounds.center.x) {
-
-                    rb.AddForce(new Vector2(-hKnockback, vKnockback));
+                    collision.contacts[0].point.x > collision.otherCollider.bounds.center.x) {*/
+                if(holder.transform.position.x < actor.transform.position.x) {
+                    Debug.Log("Knocking back 1");
+                    rb.AddForce(new Vector2(hKnockback, vKnockback));
                 }
                 else {
-                    rb.AddForce(new Vector2(hKnockback, vKnockback));
+                    Debug.Log("Knocking back 2");
+                    rb.AddForce(new Vector2(-hKnockback, vKnockback));
                 }
             }
         }
-    }                
+    }    
+    
+    public float GetRightXLocalPosition() {
+        return rightXLocalPosition;
+    }
 }

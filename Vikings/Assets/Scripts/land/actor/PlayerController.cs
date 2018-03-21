@@ -77,13 +77,6 @@ public class PlayerController : ActorController {
         }
     }
 
-    void TurnAround() {
-        facingRight = !facingRight;
-        sprenderer.flipX = !facingRight;
-
-        Debug.Log("Now" + (facingRight ? "" : " not") + " facing right");
-    }
-
     bool IsOnGround() {
         return currentPlatform != null;
     } 
@@ -107,7 +100,8 @@ public class PlayerController : ActorController {
 
     private void OnCollisionStay2D(Collision2D collision) {
         // Debug.Log("player staying colliding");
-        // OnCollisionEnter2D(collision);
+        // seems hacky
+        OnCollisionEnter2D(collision);
     }
 
     private void OnCollisionExit2D(Collision2D collision) {
