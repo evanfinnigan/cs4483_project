@@ -102,15 +102,6 @@ public class PlayerController : ActorController {
                     jumpTimer = 0;
                 }
             //}
-            if (collision.gameObject.tag == ENEMY_TAG) {
-                //Taking a hit from an enemy pushes you back in the opposite direction
-                if (collision.contacts[0].point.x > collision.otherCollider.bounds.center.x) {
-                    rb.AddForce(new Vector2(-1, 1) * jumpPower);
-                }
-                else {
-                    rb.AddForce(new Vector2(1, 1) * jumpPower);
-                }
-            }
         }
     }
 

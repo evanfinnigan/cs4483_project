@@ -39,7 +39,7 @@ public class Projectile : MonoBehaviour {
         ActorController actor = collision.gameObject.GetComponent<ActorController>();
         if(actor != null) {
             Debug.Log("Projectile hit an actor and the projectile's velocity is " + rb.velocity);
-            actor.GetShot(damage);
+            actor.TakeDamage(damage);
             //animator.SetBool("impact_blood", true);
         }
         // Hit something other than an actor

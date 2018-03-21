@@ -7,7 +7,6 @@ using System.Collections;
 public class ActorController : MonoBehaviour {
 
     public const string PLATFORM_TAG = "platform";
-    public const string ENEMY_TAG = "enemy";
 
     protected Rigidbody2D rb;
     protected SpriteRenderer sprenderer;
@@ -77,7 +76,7 @@ public class ActorController : MonoBehaviour {
         StartCoroutine(ToggleCanMelee());
     }
 
-    // We want to only attack "once", so we unset attacking variable as soon as animation begins.
+    // We want to only attack once, so we unset attacking variable as soon as animation begins.
     protected IEnumerator UnsetAttacking() {
         // wait 1 frame
         yield return 0;
@@ -92,11 +91,26 @@ public class ActorController : MonoBehaviour {
         canMelee = true;
     }
 
-    public void GetShot(int damage) {
+    // The int parameter is actually a bool, ie 0 -> false, (not 0) -> true. 
+    // For some reason this function is compatible with Animation Events if it has an INT parameter,
+    // but NOT if it has a BOOL parameter.
+    protected void ToggleMeleeHitbox(int newState) {
+        Debug.Log("Toggling melee hitboxes");
+        foreach(MeleeHitbox hitboxChild in gameObject.GetComponentsInChildren<MeleeHitbox>(true)) {
+            hitboxChild.gameObject.SetActive(0 != newState);
+        }
+    }
+
+    public void TakeDamage(int damage) {
         hp -= damage;
-        if(hp <= 0) {
+        Debug.Log(name + " got hurt and now has " + hp + " hp");
+        if(!IsAlive()) {
             Die();
         }
+    }
+
+    public bool IsAlive() {
+        return hp > 0;
     }
 
     public void Die() {
