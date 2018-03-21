@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(Animator))]
 public class PlayerController : ActorController {
 
     //Movement
@@ -13,10 +10,6 @@ public class PlayerController : ActorController {
     public float jumpPower = 100f;
     public float jumpDelay = 0.1f;      // Delay between landing and being able to jump again
 
-    private Rigidbody2D rb;
-    private SpriteRenderer sprenderer;
-
-    private Animator animator;
 
     // Tracked by CollisionEnter/Exit
     private GameObject currentPlatform;
@@ -25,10 +18,6 @@ public class PlayerController : ActorController {
     // Use this for initialization
     new protected void Start() {
         base.Start();
-
-        rb = GetComponent<Rigidbody2D>();
-        sprenderer = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
 
         // player is able to jump immediately.
         jumpTimer = jumpDelay;
@@ -76,29 +65,27 @@ public class PlayerController : ActorController {
         animator.SetBool("jumping", !IsOnGround());
 
         //Space button to shoot only if cooldown allows it
-        if (Input.GetButton("Jump") && canShoot) {
-            Shoot();
+        if (Input.GetButton("Jump")) {
+            // if bow is equipped && canShoot
+            if(false && canShoot) {
+                RangedAttack();
+            }
+            else if(canMelee) {
+                MeleeAttack();
+            }
         }
     }
 
-    void Shoot() {
-        ProjectileManager.instance().NewProjectile(transform, facingRight);
-
-        //start cooldown timer
-        StartCoroutine(ToggleCanShoot());
-    }
-
-    // Sprite and Animator will use this to figure out which way to face the player.
     void TurnAround() {
         facingRight = !facingRight;
-        transform.Rotate(new Vector3(0, 0, 180));
+        sprenderer.flipX = !facingRight;
 
         Debug.Log("Now" + (facingRight ? "" : " not") + " facing right");
     }
 
     bool IsOnGround() {
         return currentPlatform != null;
-    }
+    } 
 
     private void OnCollisionEnter2D(Collision2D collision) {
 

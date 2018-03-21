@@ -77,6 +77,7 @@ public class EnemyController : ActorController {
         // print("REMAINING ROTATION" + remainingRotation);
         if (turnSpeed >= Mathf.Abs(remainingRotation)) {
             transform.Rotate(new Vector3(0, 0, remainingRotation));
+            // finished turning
             return false;
         }
 
