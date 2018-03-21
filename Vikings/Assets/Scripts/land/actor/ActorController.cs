@@ -55,7 +55,7 @@ public class ActorController : MonoBehaviour {
     protected void TurnAround() {
         facingRight = !facingRight;
         sprenderer.flipX = !facingRight;
-        Debug.Log("Now" + (facingRight ? "" : " not") + " facing right");
+        Debug.Log(name + " now" + (facingRight ? "" : " not") + " facing right");
     }
 
     protected void RangedAttack() {
@@ -78,6 +78,7 @@ public class ActorController : MonoBehaviour {
 
     protected void MeleeAttack() {
         if(!canMelee) {
+            //Debug.Log(name + " can't melee yet");
             return;
         }
 
@@ -85,15 +86,11 @@ public class ActorController : MonoBehaviour {
         animator.SetBool("attacking", true);
 
         //Debug.Break();
-        StartCoroutine(UnsetAttacking());
         StartCoroutine(ToggleCanMelee());
     }
 
     // We want to only attack once, so we unset attacking variable as soon as animation begins.
-    protected IEnumerator UnsetAttacking() {
-        // wait 1 frame
-        yield return 0;
-        //Debug.Log("Unset attacking");
+    protected void UnsetAttacking() {
         animator.SetBool("attacking", false);
     }
 
@@ -108,20 +105,15 @@ public class ActorController : MonoBehaviour {
     // For some reason this function is compatible with Animation Events if it has an INT parameter,
     // but NOT if it has a BOOL parameter.
     protected void ToggleMeleeHitbox(int newState) {
-        Debug.Log("Toggling melee hitboxes");
+        // Debug.Log(name + " toggling melee hitboxes");
         foreach(MeleeHitbox hb in meleeHitboxes) {
             bool on = 0 != newState;
             hb.gameObject.SetActive(on);
 
             if(on) {
                 // Adjust the hitbox's position to match the direction the player is facing
-                if(facingRight) {
-                    hb.transform.localPosition = new Vector2(hb.GetRightXLocalPosition(), hb.transform.localPosition.y);
-                }
-                else {
-                    hb.transform.localPosition = new Vector2(hb.leftXLocalPosition, hb.transform.localPosition.y);
-                }
-                Debug.Log("Moved HB to " + hb.transform.localPosition);
+                hb.MoveToCorrectSideOfActor(facingRight);
+                //Debug.Log("Moved HB to " + hb.transform.localPosition);
             }
         }
     }

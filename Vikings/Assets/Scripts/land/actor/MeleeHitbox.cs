@@ -13,7 +13,7 @@ public class MeleeHitbox : MonoBehaviour {
     // Then set this variable to the x position which matches the hitbox on the sprite's LEFT side.
     // When the actor turns around, the hitbox's position will swap.
     public float leftXLocalPosition;
-    private float rightXLocalPosition;
+    public float rightXLocalPosition;
 
     // The character holding the melee weapon - can be set in editor
     public ActorController holder;
@@ -30,10 +30,6 @@ public class MeleeHitbox : MonoBehaviour {
             if(holder == null) {
                 Debug.LogError("Couldn't find actor holding weapon " + name);
             }
-        }
-
-        if(rightXLocalPosition == 0) {
-            rightXLocalPosition = transform.localPosition.x;
         }
     }
 
@@ -70,8 +66,13 @@ public class MeleeHitbox : MonoBehaviour {
             }
         }
     }    
-    
-    public float GetRightXLocalPosition() {
-        return rightXLocalPosition;
+
+    public void MoveToCorrectSideOfActor(bool isFacingRight) {
+        if(isFacingRight) {
+            transform.localPosition = new Vector2(rightXLocalPosition, transform.localPosition.y);
+        }
+        else {
+            transform.localPosition = new Vector2(leftXLocalPosition, transform.localPosition.y);
+        }
     }
 }

@@ -96,7 +96,7 @@ public class PlayerController : ActorController {
                 // The player object is ABOVE the platform, which means we are on it.
                 //Debug.Log("Collided at " + collision.contacts[0].point + " with player who's at " + collision.otherCollider.bounds.min);
                 currentPlatform = collision.gameObject;
-                Debug.Log("on ground");
+                // Debug.Log("on ground");
                 jumpTimer = 0;
             }
         }
