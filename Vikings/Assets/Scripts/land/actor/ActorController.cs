@@ -15,14 +15,14 @@ public class ActorController : MonoBehaviour {
 
     public int hp = 1;
 
-    public bool canShoot = true;
-    public bool canMelee = true;
+    protected bool canShoot = true;
+    protected bool canMelee = true;
 
     // TODO set this properly
     protected bool facingRight = true;
 
-    public float projectileCooldown = 1f;
-    public float meleeCooldown = 0.2f;
+    protected float projectileCooldown = 1f;
+    protected float meleeCooldown = 1f;
 
     // Use this for initialization
     protected void Start() {
@@ -47,6 +47,10 @@ public class ActorController : MonoBehaviour {
     }
 
     protected void RangedAttack() {
+        if(!canShoot) {
+            return;
+        }
+
         ProjectileManager.instance().NewProjectile(transform, facingRight);
 
         //start cooldown timer
@@ -61,9 +65,24 @@ public class ActorController : MonoBehaviour {
     }
 
     protected void MeleeAttack() {
-        Debug.Log(name + " attack!");
+        if(!canMelee) {
+            return;
+        }
+
+        //Debug.Log(name + " attack!");
         animator.SetBool("attacking", true);
+
+        //Debug.Break();
+        StartCoroutine(UnsetAttacking());
         StartCoroutine(ToggleCanMelee());
+    }
+
+    // We want to only attack "once", so we unset attacking variable as soon as animation begins.
+    protected IEnumerator UnsetAttacking() {
+        // wait 1 frame
+        yield return 0;
+        //Debug.Log("Unset attacking");
+        animator.SetBool("attacking", false);
     }
 
     //Toggles the canShoot variable to false for [cooldown] amount of seconds
@@ -71,12 +90,6 @@ public class ActorController : MonoBehaviour {
         canMelee = false;
         yield return new WaitForSeconds(meleeCooldown);
         canMelee = true;
-        OnMeleeAnimationFinish();
-    }
-
-    protected void OnMeleeAnimationFinish() {
-        Debug.Log("stop attacking");
-        animator.SetBool("attacking", false);
     }
 
     public void GetShot(int damage) {

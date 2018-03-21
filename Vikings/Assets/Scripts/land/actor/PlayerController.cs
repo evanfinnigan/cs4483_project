@@ -67,10 +67,11 @@ public class PlayerController : ActorController {
         //Space button to shoot only if cooldown allows it
         if (Input.GetButton("Jump")) {
             // if bow is equipped && canShoot
-            if(false && canShoot) {
+            // no bow yet, so don't execute this
+            if("".Equals(" ")) {
                 RangedAttack();
             }
-            else if(canMelee) {
+            else {              // sword equipped
                 MeleeAttack();
             }
         }
