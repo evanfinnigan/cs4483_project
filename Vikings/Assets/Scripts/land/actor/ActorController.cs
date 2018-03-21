@@ -2,6 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Animator))]
 public class ActorController : MonoBehaviour {
@@ -9,8 +10,10 @@ public class ActorController : MonoBehaviour {
     public const string PLATFORM_TAG = "platform";
 
     protected Rigidbody2D rb;
+    protected Collider2D collid;
     protected SpriteRenderer sprenderer;
     protected Animator animator;
+
     protected MeleeHitbox[] meleeHitboxes;
 
     public int hp = 1;
@@ -29,6 +32,7 @@ public class ActorController : MonoBehaviour {
     // Use this for initialization
     protected void Start() {
         rb = GetComponent<Rigidbody2D>();
+        collid = GetComponent<Collider2D>();
         sprenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         meleeHitboxes = gameObject.GetComponentsInChildren<MeleeHitbox>(true);
@@ -40,7 +44,7 @@ public class ActorController : MonoBehaviour {
         //Debug.Log(transform.position);
         if(transform.position.y < -15) {
             Debug.Log(name + " fell off the map");
-            Destroy(gameObject);
+            Die();
         }
     }
 
@@ -134,6 +138,8 @@ public class ActorController : MonoBehaviour {
         return this != null && hp > 0;
     }
 
+    // Note that this die DESTROYS this object. So, if you want to do any on-death stuff,
+    // call this AFTER.
     public void Die() {
         Debug.Log(name + " is dead");
         Destroy(gameObject);

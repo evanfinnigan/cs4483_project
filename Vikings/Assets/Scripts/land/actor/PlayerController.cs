@@ -8,19 +8,16 @@ public class PlayerController : ActorController {
     private float jumpTimer;
     public float maxSpeed = 10f;
     public float jumpPower = 100f;
-    public float jumpDelay = 0.1f;      // Delay between landing and being able to jump again
+    public float jumpDelaySecs = 0.5f;      // Delay between subsequent jumps 
 
+    private bool canJump = true;
 
     // Tracked by CollisionEnter/Exit
     private GameObject currentPlatform;
 
-
     // Use this for initialization
     new protected void Start() {
         base.Start();
-
-        // player is able to jump immediately.
-        jumpTimer = jumpDelay;
     }
 
     // Handle all player movement in FixedUpdate since we're using RBs
@@ -41,19 +38,17 @@ public class PlayerController : ActorController {
             }
         }
         else {
-            //Debug.Log("floaty");
-        }
-
-        // Jumping stuff
-        if (jumpTimer < jumpDelay) {
-            jumpTimer += Time.fixedDeltaTime;
+           // Debug.Log("Not on ground");
         }
 
         if (IsOnGround()) {
             // make sure to update jumpTimer before this
-            if (Input.GetAxis("Vertical") > 0 && jumpTimer >= jumpDelay) {
-                // jump
-                rb.AddForce(Vector2.up * jumpPower);
+            if (Input.GetAxis("Vertical") > 0) {
+                if(canJump) {
+                    // jump
+                    rb.AddForce(Vector2.up * jumpPower);
+                    StartCoroutine(ToggleCanJump());
+                }
             }
         }
     }
@@ -61,11 +56,15 @@ public class PlayerController : ActorController {
     new protected void Update() {
         base.Update();
         
-        animator.SetFloat("speed", rb.velocity.magnitude);
+
+    }
+
+    protected void LateUpdate() {
+        animator.SetFloat("speed", Mathf.Abs(rb.velocity.x));
         animator.SetBool("jumping", !IsOnGround());
 
-        //Space button to shoot only if cooldown allows it
-        if (Input.GetButton("Jump")) {
+        // Attack
+        if (Input.GetButton("Jump") || Input.GetButton("Fire1")) {
             // if bow is equipped && canShoot
             // no bow yet, so don't execute this
             if("".Equals(" ")) {
@@ -77,6 +76,12 @@ public class PlayerController : ActorController {
         }
     }
 
+    IEnumerator ToggleCanJump() {
+        canJump = false;
+        yield return new WaitForSeconds(jumpDelaySecs);
+        canJump = true;
+    }
+
     bool IsOnGround() {
         return currentPlatform != null;
     } 
@@ -86,15 +91,14 @@ public class PlayerController : ActorController {
         //Debug.Log("player begin colliding");
         if (collision.contacts.Length > 0) {
             // Detect if the player is standing on a new platform. The player is only "on" one platform at a time.
-            //if (collision.gameObject.tag == PLATFORM_TAG && currentPlatform == null) {
-                // The other collider is the player's
-                if (collision.contacts[0].point.y < collision.otherCollider.bounds.center.y) {
-                    // The player object is ABOVE the platform, which means we are on it.
-                    currentPlatform = collision.gameObject;
-                    Debug.Log("on ground");
-                    jumpTimer = 0;
-                }
-            //}
+            // The other collider is the player's
+            if (collision.contacts[0].point.y <= collision.otherCollider.bounds.min.y) {
+                // The player object is ABOVE the platform, which means we are on it.
+                //Debug.Log("Collided at " + collision.contacts[0].point + " with player who's at " + collision.otherCollider.bounds.min);
+                currentPlatform = collision.gameObject;
+                Debug.Log("on ground");
+                jumpTimer = 0;
+            }
         }
     }
 
@@ -111,5 +115,13 @@ public class PlayerController : ActorController {
         }
     }
 
+    new protected void Die() {
+        Debug.Log(name + " is dying");
+        maxSpeed = 0;
+        rb.AddForce(Vector2.up * jumpPower * 2);
+        collid.enabled = false;
+
+        base.Die();
+    }
 
 }
