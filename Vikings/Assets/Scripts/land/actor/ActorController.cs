@@ -8,7 +8,12 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Animator))]
 public class ActorController : MonoBehaviour {
 
-    public const string PLATFORM_TAG = "platform";
+    public const string 
+            PLATFORM_TAG = "platform",
+
+            ANIM_SPEED = "speed",
+            ANIM_JUMPING = "jumping",
+            ANIM_ATTACKING = "attacking";
 
     protected Rigidbody2D rb;
     protected Collider2D collid;
@@ -17,10 +22,15 @@ public class ActorController : MonoBehaviour {
     protected MeleeHitbox[] meleeHitboxes;
 
     // prevents hitting the same actor with multiple hitboxes in one frame
-    // This logic should be in meleehitbox...
-    public List<ActorController> actorsHitThisFrame;
+    // This logic should be in meleehitbox, but it needs to be per-actor
+    private List<ActorController> actorsHitThisFrame;
 
     public int hp = 1;
+    // We store this for all actors, including melee-only enemies
+    // Could subclass to make a ranged type which applies to the player and ranged enemies.
+    public Vector2 projectileOffset = new Vector2(1f, -0.5f);
+    public Vector2 projectileSpeed = new Vector2(30, 0);
+    public GameObject projectilePrefab;
 
     protected bool canShoot = true;
     protected bool canMelee = true;
@@ -40,6 +50,12 @@ public class ActorController : MonoBehaviour {
         sprenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         meleeHitboxes = gameObject.GetComponentsInChildren<MeleeHitbox>(true);
+
+        actorsHitThisFrame = new List<ActorController>();
+
+        if(projectilePrefab == null) {
+            Debug.LogWarning("No projectile prefab set for actor " + name);
+        }
     }
 
     // Update is called once per frame
@@ -70,7 +86,7 @@ public class ActorController : MonoBehaviour {
             return;
         }
 
-        ProjectileManager.instance().NewProjectile(transform, facingRight);
+        ProjectileManager.instance().NewProjectile(this, facingRight);
 
         //start cooldown timer
         StartCoroutine(ToggleCanShoot());
@@ -98,7 +114,7 @@ public class ActorController : MonoBehaviour {
 
     // We want to only attack once, so we unset attacking variable as soon as animation begins.
     protected void UnsetAttacking() {
-        animator.SetBool("attacking", false);
+        animator.SetBool(ANIM_ATTACKING, false);
     }
 
     //Toggles the canShoot variable to false for [cooldown] amount of seconds
@@ -142,5 +158,9 @@ public class ActorController : MonoBehaviour {
     protected virtual void Die(bool fromFalling=false) {
         Debug.Log(name + " is dead");
         Destroy(gameObject);
+    }
+
+    public List<ActorController> GetActorsHitThisFrame() {
+        return actorsHitThisFrame;
     }
 }

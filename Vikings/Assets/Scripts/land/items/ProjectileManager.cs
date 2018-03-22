@@ -5,10 +5,6 @@ public class ProjectileManager : MonoBehaviour {
 
     private static ProjectileManager _instance;
 
-    public Vector2 projectileVelocity;
-    public GameObject projectilePrefab;
-    private Vector2 projectileOffset = new Vector2(1f, 0);
-
     // Singleton pattern
     public static ProjectileManager instance() {
         if(_instance == null) {
@@ -39,23 +35,26 @@ public class ProjectileManager : MonoBehaviour {
 
     }
 
-    public void NewProjectile(Transform shooter, bool facingRight) {
+    public void NewProjectile(ActorController shooter, bool facingRight) {
         int direction = facingRight ? 1 : -1;
 
         // Be careful not to use 'transform' here, use 'shooter' instead.
 
-        Debug.Log("prefab rot " + projectilePrefab.transform.rotation);
-        // match projectile rotation and direction to player's
-        Vector3 eulers = new Vector3(shooter.rotation.eulerAngles.x, shooter.rotation.eulerAngles.y, 
-            projectilePrefab.transform.rotation.z);
+        //Debug.Log("prefab rot " + projectilePrefab.transform.rotation);
+        // match projectile rotation and direction to shooter's
+        Vector3 eulers = new Vector3(shooter.transform.rotation.eulerAngles.x, shooter.transform.rotation.eulerAngles.y, 
+            shooter.projectilePrefab.transform.rotation.z);
         // The projectile sprite is rotated 45 degrees up. It would be better to fix this in the editor,
         // but apparently rotating the prefab doesn't work
         eulers.z -= 45 * direction;
 
+        Vector2 offset = new Vector2(direction * shooter.projectileOffset.x, shooter.projectileOffset.y);
+        Vector2 projectileLocation = (Vector2)shooter.transform.position + offset;
+        // We want to adjust the x offset for direction, but not y
+
         //Create a projectile object
-        GameObject projectile = Instantiate(projectilePrefab,
-                (Vector2)shooter.position + direction * projectileOffset * shooter.localScale.x,
-                Quaternion.Euler(eulers.x, eulers.y, eulers.z));    
+        GameObject projectile = Instantiate(shooter.projectilePrefab, projectileLocation, 
+            Quaternion.Euler(eulers.x, eulers.y, eulers.z));    
 
         /*
         GameObject projectile = UnityEditor.PrefabUtility.InstantiatePrefab(projectilePrefab) as GameObject;
@@ -68,10 +67,13 @@ public class ProjectileManager : MonoBehaviour {
             Debug.LogError("Error: projectilePrefab is not a projectile!");
         }
 
-        //Set its velocity in the directon of movement
-        projectile.GetComponent<Rigidbody2D>().velocity = 
-                new Vector2(direction * projectileVelocity.x * shooter.localScale.x, 
-                projectileVelocity.y);
+        //Debug.Log("projectile created at " + projectile.transform.position);
+
+        //Set its velocity to line up with the way the actor's facing
+        Vector2 vel = new Vector2(direction * shooter.projectileSpeed.x, shooter.projectileSpeed.y);
+        projectile.GetComponent<Rigidbody2D>().velocity = vel;
+
+        //Debug.Log("projectile given velocity " + vel);
 
         // flip the sprite in X if facing left
         // Keep in mind the SpriteRenderer is on a child GO of the projectile.

@@ -8,13 +8,16 @@ public class Projectile : MonoBehaviour {
     public int damage = 1;
 
     private Rigidbody2D rb;
-    private Collider2D collid;
+    //private Collider2D collid;
     //[SerializeField]
     //private Animator animator;
 
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
-        collid = GetComponent<Collider2D>();
+        if(rb == null) {
+            Debug.LogError("Projectile doesn't have a Rigidbody");
+        }
+        //collid = GetComponent<Collider2D>();
         //animator = GetComponent<Animator>();
     }
 
@@ -32,22 +35,27 @@ public class Projectile : MonoBehaviour {
 
     //projectile will be destroyed when it hits a platform
     private void OnCollisionEnter2D(Collision2D collision) {
-        if(collision.gameObject == null) {
+        GameObject other = collision.gameObject;
+        if(other == null) {
             return;
         }
+        Debug.Log("projectile hit " + other.name);
 
-        ActorController actor = collision.gameObject.GetComponent<ActorController>();
+        ActorController actor = other.GetComponent<ActorController>();
         if(actor != null) {
-            Debug.Log("Projectile hit an actor and the projectile's velocity is " + rb.velocity);
+            // Hit an actor
             actor.TakeDamage(damage);
             //animator.SetBool("impact_blood", true);
         }
         // Hit something other than an actor
-        else if(collision.gameObject.tag == ActorController.PLATFORM_TAG) {
-            Debug.Log("Bullet hit " + collision.gameObject.name);
+        else if(other.tag == ActorController.PLATFORM_TAG) {
             //animator.SetBool("impact_object", true);
         }
+        else {
+            Debug.Log("projectile hit something else " + other.name);
+        }
 
+        // There might be things we want to 'hit' but not destroy the bullet, then we'd have to move this.
         Destroy(gameObject);
     }
 }

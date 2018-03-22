@@ -316,8 +316,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3b3f8df60c59824d9184421dd4885ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actorsHitThisFrame: []
   hp: 3
+  projectileOffset: {x: 1, y: -0.5}
+  projectileSpeed: {x: 25, y: 0}
+  projectilePrefab: {fileID: 1066230529714612, guid: 31ad160fe054b424bb8e695c6edff28b,
+    type: 2}
   maxSpeed: 10
   jumpPower: 200
   jumpDelaySecs: 0.5

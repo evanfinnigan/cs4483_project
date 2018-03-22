@@ -61,8 +61,8 @@ public class PlayerController : ActorController {
     protected override void LateUpdate() {
         base.LateUpdate();
 
-        animator.SetFloat("speed", Mathf.Abs(rb.velocity.x));
-        animator.SetBool("jumping", !IsOnGround());
+        animator.SetFloat(ANIM_SPEED, Mathf.Abs(rb.velocity.x));
+        animator.SetBool(ANIM_JUMPING, !IsOnGround());
 
         // Attack
         if (Input.GetButton("Jump") /*|| Input.GetButton("Fire1")*/) {
@@ -120,18 +120,25 @@ public class PlayerController : ActorController {
 
         // If player died from falling, skip this
         if(!fromFalling) {
-            StartCoroutine(FreezeThenThrowPlayer(1));
+            FreezeThenThrowPlayer(0);
         }
         else {
             base.Die();
         }
     }
 
-    // mario death "animation"
-    protected IEnumerator FreezeThenThrowPlayer(float freezeLen) {
-        rb.simulated = false;
+    // death "animation"
+    protected void FreezeThenThrowPlayer(float freezeLen) {
+        // Freeze the player briefly
+        //rb.simulated = false;
+        // remove vertical velocity - otherwise this can result in some weirdness
+        rb.velocity = new Vector2(rb.velocity.x, 0);
+        animator.enabled = false;
         collid.enabled = false;
-        yield return new WaitForSeconds(freezeLen);
+
+        //yield return new WaitForSeconds(freezeLen);
+
+        // now throw them up in the air, and let them fall through the map to their death
         rb.simulated = true;
         rb.AddForce(Vector2.up * jumpPower);
         // also turn player upside down cause it's funny

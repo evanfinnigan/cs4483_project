@@ -35,16 +35,16 @@ public class MeleeHitbox : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        holder.actorsHitThisFrame.Clear();
+        holder.GetActorsHitThisFrame().Clear();
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
         ActorController other = collision.gameObject.GetComponent<ActorController>();
-        if(other != null && !holder.actorsHitThisFrame.Contains(other)) {
+        if(other != null && !holder.GetActorsHitThisFrame().Contains(other)) {
             // Someone important got hit!
             Debug.Log(collision.gameObject.name + " got smacked by " + name);
             other.TakeDamage(damage);
-            holder.actorsHitThisFrame.Add(other);
+            holder.GetActorsHitThisFrame().Add(other);
 
             if(other.IsAlive()) {
                 // they survived the hit
