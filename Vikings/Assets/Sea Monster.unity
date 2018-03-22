@@ -438,8 +438,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3b3f8df60c59824d9184421dd4885ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actorsHitThisFrame: []
   hp: 3
+  projectileOffset: {x: 1, y: -0.5}
+  projectileSpeed: {x: 30, y: 0}
+  projectilePrefab: {fileID: 0}
   maxSpeed: 10
   jumpPower: 200
   jumpDelaySecs: 0.5
@@ -911,7 +913,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ec17a0ed51db7dd4fa966f0e6741bce3, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 46b1fabea1b147240a4ff5a854d683e2, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1
