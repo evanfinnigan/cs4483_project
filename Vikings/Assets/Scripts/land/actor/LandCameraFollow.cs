@@ -12,6 +12,9 @@ public class LandCameraFollow : MonoBehaviour {
     // Use this for initialization
     void Start() {
         //offset = transform.position - follow.transform.position;
+        if(offset == null || offset == null) {
+            Debug.LogError("LandCameraFollow behaviour missing fields on " + name);
+        }
     }
 
     // Update is called once per frame

@@ -8,6 +8,8 @@ public class EnemyController : ActorController {
     //public float turnSpeed = 40f;
     public const int visionRange = 25;
 
+    public bool isRanged;
+
     //public Vector2[] patrolPoints;
 
     // Only works in one dimension right now - enemies can only patrol in X.
@@ -33,8 +35,16 @@ public class EnemyController : ActorController {
         // If you know where the player was, or you see him now, chase him
         if(lastSeenPlayerLoc != null) {
             //Debug.Log(name + " chasing player to " + lastSeenPlayerLoc);
+            
             // attack them if can, else move to last known loc
-            if(!MoveTo(( (Vector2)lastSeenPlayerLoc ).x, chaseSpeed)) {
+
+            // do a ranged attack if we just saw player this frame
+            if(isRanged && possiblePlayerLoc != null) {
+                animator.SetFloat(ANIM_SPEED, 0);
+                RangedAttack();
+            }
+            // move to last known location
+            else if(!MoveTo(( (Vector2)lastSeenPlayerLoc ).x, chaseSpeed)) {
                 // reached last known loc; this means we have lost track of player.
                 lastSeenPlayerLoc = null;
             }
@@ -72,7 +82,7 @@ public class EnemyController : ActorController {
             return false;
         }
 
-        animator.SetFloat("speed", speed);
+        animator.SetFloat(ANIM_SPEED, speed);
         // speed / 50 is so that the enemies' speeds are on the same scale as the player's speed, 
         // meaning the animation speed matches the movement speed
         transform.position = Vector2.MoveTowards(transform.position, new Vector2(destX, transform.position.y), 
@@ -103,8 +113,8 @@ public class EnemyController : ActorController {
     Vector2? LookForPlayer() {
         Vector3 raySource = transform.position;
         // We have to cast the ray from lower because the enemy's sprite is much bigger than the enemy appears
-        // so, to prevent casting the ray too high:
-        raySource.y -= 1;
+        // so, to prevent casting the ray too high, add the negative offset:
+        raySource.y += projectileOffset.y;
 
         Vector3 rayDir = ( facingRight ? 1 : -1 ) * transform.right * visionRange;
 
@@ -130,9 +140,14 @@ public class EnemyController : ActorController {
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
         if (player != null && player.IsAlive()) {
             // enemy is bumping into player
+            // this can result in a situation where the enemy ends up on top of the player, then
+            // continues to follow them, meaning enemy stays on top of the player
+            
             lastSeenPlayerLoc = collision.gameObject.transform.position;
 
-            MeleeAttack();
+            if(!isRanged) {
+                MeleeAttack();
+            }
         }
     }
 
