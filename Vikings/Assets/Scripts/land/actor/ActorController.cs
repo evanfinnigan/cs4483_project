@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
@@ -13,8 +14,11 @@ public class ActorController : MonoBehaviour {
     protected Collider2D collid;
     protected SpriteRenderer sprenderer;
     protected Animator animator;
-
     protected MeleeHitbox[] meleeHitboxes;
+
+    // prevents hitting the same actor with multiple hitboxes in one frame
+    // This logic should be in meleehitbox...
+    public List<ActorController> actorsHitThisFrame;
 
     public int hp = 1;
 
@@ -30,7 +34,7 @@ public class ActorController : MonoBehaviour {
     protected float meleeCooldown = 1f;
 
     // Use this for initialization
-    protected void Start() {
+    protected virtual void Start() {
         rb = GetComponent<Rigidbody2D>();
         collid = GetComponent<Collider2D>();
         sprenderer = GetComponent<SpriteRenderer>();
@@ -39,29 +43,29 @@ public class ActorController : MonoBehaviour {
     }
 
     // Update is called once per frame
-    protected void Update() {
+    protected virtual void Update() {
         //Debug.Log("Updating controller for " + name);
         //Debug.Log(transform.position);
         if(transform.position.y < -10) {
             Debug.Log(name + " fell off the map");
-            Die();
+            Die(true);
         }
     }
 
-    protected void FixedUpdate() {
+    protected virtual void FixedUpdate() {
         
     }
 
-    protected void LateUpdate() {
+    protected virtual void LateUpdate() {
     }
 
-    protected void TurnAround() {
+    protected virtual void TurnAround() {
         facingRight = !facingRight;
         sprenderer.flipX = !facingRight;
-        Debug.Log(name + " now" + (facingRight ? "" : " not") + " facing right");
+        //Debug.Log(name + " now" + (facingRight ? "" : " not") + " facing right");
     }
 
-    protected void RangedAttack() {
+    protected virtual void RangedAttack() {
         if(!canShoot) {
             return;
         }
@@ -80,7 +84,7 @@ public class ActorController : MonoBehaviour {
     }
 
     protected void MeleeAttack() {
-        if(!canMelee) {
+        if(!IsAlive() || !canMelee) {
             //Debug.Log(name + " can't melee yet");
             return;
         }
@@ -114,7 +118,7 @@ public class ActorController : MonoBehaviour {
             hb.gameObject.SetActive(on);
 
             if(on) {
-                // Adjust the hitbox's position to match the direction the player is facing
+                // Adjust the hitbox's position to match the direction the actor is facing
                 hb.MoveToCorrectSideOfActor(facingRight);
                 //Debug.Log("Moved HB to " + hb.transform.localPosition);
             }
@@ -135,7 +139,7 @@ public class ActorController : MonoBehaviour {
 
     // Note that this die DESTROYS this object. So, if you want to do any on-death stuff in subclass,
     // call this AFTER.
-    public void Die() {
+    protected virtual void Die(bool fromFalling=false) {
         Debug.Log(name + " is dead");
         Destroy(gameObject);
     }

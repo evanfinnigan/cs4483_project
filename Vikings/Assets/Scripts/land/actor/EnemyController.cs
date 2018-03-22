@@ -17,19 +17,22 @@ public class EnemyController : ActorController {
     private Vector2? lastSeenPlayerLoc;
 
     // Use this for initialization
-    new protected void Start() {
+    protected override void Start() {
         base.Start();
     }
 
     // Movement in FixedUpdate
-    new protected void FixedUpdate() {
+    protected override void FixedUpdate() {
         base.FixedUpdate();
 
-        bool foundPlayer = LookForPlayer();
+        Vector2? possiblePlayerLoc = LookForPlayer();
+        if(possiblePlayerLoc != null) {
+            lastSeenPlayerLoc = possiblePlayerLoc;
+        }
 
         // If you know where the player was, or you see him now, chase him
-        if(lastSeenPlayerLoc != null || foundPlayer) {
-            Debug.Log(name + " chasing player to " + lastSeenPlayerLoc);
+        if(lastSeenPlayerLoc != null) {
+            //Debug.Log(name + " chasing player to " + lastSeenPlayerLoc);
             // attack them if can, else move to last known loc
             if(!MoveTo(( (Vector2)lastSeenPlayerLoc ).x, chaseSpeed)) {
                 // reached last known loc; this means we have lost track of player.
@@ -65,13 +68,15 @@ public class EnemyController : ActorController {
 
         if(Mathf.Abs(transform.position.x - destX) < 0.1) {
             // already arrived at destination
-            Debug.Log("arrived");
+            //Debug.Log("arrived");
             return false;
         }
 
         animator.SetFloat("speed", speed);
+        // speed / 50 is so that the enemies' speeds are on the same scale as the player's speed, 
+        // meaning the animation speed matches the movement speed
         transform.position = Vector2.MoveTowards(transform.position, new Vector2(destX, transform.position.y), 
-            speed / 50);
+            speed / 50);       
 
         return true;
     }
@@ -95,7 +100,7 @@ public class EnemyController : ActorController {
     */
 
     // Check to see if player is in line of vision. If so, set lastSeenPlayerLoc, and return true.
-    bool LookForPlayer() {
+    Vector2? LookForPlayer() {
         Vector3 raySource = transform.position;
         // We have to cast the ray from lower because the enemy's sprite is much bigger than the enemy appears
         // so, to prevent casting the ray too high:
@@ -106,7 +111,7 @@ public class EnemyController : ActorController {
         Debug.DrawRay(raySource, rayDir, Color.white);
         RaycastHit2D hit = Physics2D.Raycast(raySource, rayDir);
         if(!hit) {
-            return false;
+            return null;
         }
 
         GameObject other = hit.collider.gameObject;
@@ -115,16 +120,15 @@ public class EnemyController : ActorController {
         if (other.GetComponent<PlayerController>() != null) {
             // we can see the player, we have to chase them
             // For now, set y-component to self's y, since enemies have no vertical movement.
-            lastSeenPlayerLoc = new Vector2(hit.collider.gameObject.transform.position.x, transform.position.y);
+            return new Vector2(hit.collider.gameObject.transform.position.x, transform.position.y);
             //Debug.Log("I see the player at " + lastSeenPlayerLoc);
-            return true;
         }
-        return false;
+        return null;
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-        if(player != null) {
+        if (player != null && player.IsAlive()) {
             // enemy is bumping into player
             lastSeenPlayerLoc = collision.gameObject.transform.position;
 

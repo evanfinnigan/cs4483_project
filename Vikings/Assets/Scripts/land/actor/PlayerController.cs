@@ -5,9 +5,8 @@ using UnityEngine;
 public class PlayerController : ActorController {
 
     //Movement
-    private float jumpTimer;
     public float maxSpeed = 10f;
-    public float jumpPower = 100f;
+    public float jumpPower = 200f;
     public float jumpDelaySecs = 0.5f;      // Delay between subsequent jumps 
 
     private bool canJump = true;
@@ -16,12 +15,12 @@ public class PlayerController : ActorController {
     private GameObject currentPlatform;
 
     // Use this for initialization
-    new protected void Start() {
+    protected override void Start() {
         base.Start();
     }
 
     // Handle all player movement in FixedUpdate since we're using RBs
-    new protected void FixedUpdate() {
+    protected override void FixedUpdate() {
         base.FixedUpdate();
 
         // In the air, keep momentum, but can't influence horizontal speed
@@ -53,20 +52,20 @@ public class PlayerController : ActorController {
         }
     }
 
-    new protected void Update() {
+    protected override void Update() {
         base.Update();
         
 
     }
 
-    new protected void LateUpdate() {
+    protected override void LateUpdate() {
         base.LateUpdate();
 
         animator.SetFloat("speed", Mathf.Abs(rb.velocity.x));
         animator.SetBool("jumping", !IsOnGround());
 
         // Attack
-        if (Input.GetButton("Jump") || Input.GetButton("Fire1")) {
+        if (Input.GetButton("Jump") /*|| Input.GetButton("Fire1")*/) {
             // if bow is equipped && canShoot
             // no bow yet, so don't execute this
             if("".Equals(" ")) {
@@ -99,7 +98,6 @@ public class PlayerController : ActorController {
                 //Debug.Log("Collided at " + collision.contacts[0].point + " with player who's at " + collision.otherCollider.bounds.min);
                 currentPlatform = collision.gameObject;
                 // Debug.Log("on ground");
-                jumpTimer = 0;
             }
         }
     }
@@ -117,12 +115,34 @@ public class PlayerController : ActorController {
         }
     }
 
-    new protected void Die() {
+    protected override void Die(bool fromFalling=false) {
         Debug.Log(name + " is dying");
-        maxSpeed = 0;
-        rb.AddForce(Vector2.up * jumpPower * 2);
-        collid.enabled = false;
 
+        // If player died from falling, skip this
+        if(!fromFalling) {
+            StartCoroutine(FreezeThenThrowPlayer(1));
+        }
+        else {
+            base.Die();
+        }
+    }
+
+    // mario death "animation"
+    protected IEnumerator FreezeThenThrowPlayer(float freezeLen) {
+        rb.simulated = false;
+        collid.enabled = false;
+        yield return new WaitForSeconds(freezeLen);
+        rb.simulated = true;
+        rb.AddForce(Vector2.up * jumpPower);
+        // also turn player upside down cause it's funny
+        sprenderer.flipY = true;
+
+        // then they die from falling
+    }
+
+    // not used anymore
+    protected IEnumerator DieAfterDelay() {
+        yield return new WaitForSeconds(2);
         base.Die();
     }
 

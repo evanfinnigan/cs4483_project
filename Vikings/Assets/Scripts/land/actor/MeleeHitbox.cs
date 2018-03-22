@@ -6,8 +6,8 @@ using UnityEngine;
 public class MeleeHitbox : MonoBehaviour {
 
     public int damage = 1;
-    public int hKnockback = 100;
-    public int vKnockback = 100;
+    public int hKnockback = 200;
+    public int vKnockback = 200;
 
     // Set the hitbox's x position in the editor to match the hitbox on the sprite's right side.
     // Then set this variable to the x position which matches the hitbox on the sprite's LEFT side.
@@ -35,17 +35,18 @@ public class MeleeHitbox : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-
+        holder.actorsHitThisFrame.Clear();
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        ActorController actor = collision.gameObject.GetComponent<ActorController>();
-        if(actor != null) {
+        ActorController other = collision.gameObject.GetComponent<ActorController>();
+        if(other != null && !holder.actorsHitThisFrame.Contains(other)) {
             // Someone important got hit!
             Debug.Log(collision.gameObject.name + " got smacked by " + name);
-            actor.TakeDamage(damage);
+            other.TakeDamage(damage);
+            holder.actorsHitThisFrame.Add(other);
 
-            if(actor.IsAlive()) {
+            if(other.IsAlive()) {
                 // they survived the hit
                 // Knock them back
                 Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
@@ -55,12 +56,12 @@ public class MeleeHitbox : MonoBehaviour {
                 /*
                 if (collision.contacts.Length > 0 && 
                     collision.contacts[0].point.x > collision.otherCollider.bounds.center.x) {*/
-                if(holder.transform.position.x < actor.transform.position.x) {
-                    Debug.Log("Knocking back 1");
+                if(holder.transform.position.x < other.transform.position.x) {
+                    //Debug.Log("Knocking back 1");
                     rb.AddForce(new Vector2(hKnockback, vKnockback));
                 }
                 else {
-                    Debug.Log("Knocking back 2");
+                    //Debug.Log("Knocking back 2");
                     rb.AddForce(new Vector2(-hKnockback, vKnockback));
                 }
             }
