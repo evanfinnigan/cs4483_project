@@ -34,10 +34,9 @@ public class ActorController : MonoBehaviour {
 
     protected bool canShoot = true;
     protected bool canMelee = true;
+    protected bool canMove = true;
 
-    // TODO set this properly - IE check the actor's heading to see if they are looking in the negative (left)
-    // or positive (right) direction instead of assuming they are looking right.
-    // This variable and TurnAround() are not used by enemies yet.
+    // TODO should not assume player starts facing right (enemies will immediately correct this if they aren't)
     protected bool facingRight = true;
 
     protected float projectileCooldown = 1f;
@@ -82,14 +81,34 @@ public class ActorController : MonoBehaviour {
     }
 
     protected virtual void RangedAttack() {
-        if(!canShoot) {
+        if(!IsAlive() || !canShoot) {
             return;
         }
 
+        // The bow attack animation will then call StartShoot, Shoot, EndShoot
+        animator.SetBool(ANIM_ATTACKING, true);
+        Debug.Break();
+    }
+
+    // called BY THE ANIMATION to root actor while they fire
+    public void StartShoot() {
+        animator.SetBool(ANIM_ATTACKING, false);
+        //Debug.Log("StartShoot");
+        canMove = false;
+    }
+
+    // called BY THE ANIMATION to make sure projectile spawn lines up with animation
+    public void Shoot() {
+        //Debug.Log("EndShoot");
         ProjectileManager.instance().NewProjectile(this, facingRight);
 
         //start cooldown timer
         StartCoroutine(ToggleCanShoot());
+    }
+
+    // called BY THE ANIMATION to unroot actor once they're done firing
+    public void EndShoot() {
+        canMove = true;
     }
 
     //Toggles the canShoot variable to false for [cooldown] amount of seconds

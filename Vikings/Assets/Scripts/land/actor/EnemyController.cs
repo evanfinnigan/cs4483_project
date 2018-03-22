@@ -26,6 +26,9 @@ public class EnemyController : ActorController {
     // Movement in FixedUpdate
     protected override void FixedUpdate() {
         base.FixedUpdate();
+        
+        // assume not moving - if we do move, this will be overridden.
+        animator.SetFloat(ANIM_SPEED, 0);
 
         Vector2? possiblePlayerLoc = LookForPlayer();
         if(possiblePlayerLoc != null) {
@@ -40,7 +43,6 @@ public class EnemyController : ActorController {
 
             // do a ranged attack if we just saw player this frame
             if(isRanged && possiblePlayerLoc != null) {
-                animator.SetFloat(ANIM_SPEED, 0);
                 RangedAttack();
             }
             // move to last known location
@@ -69,8 +71,13 @@ public class EnemyController : ActorController {
 
     }
 
-    // Move to a location. Returns if any moving was actually performed - ie returns false if already at location.
+    // Move to a location. Returns if any moving was actually required - ie returns false if already at location.
     bool MoveTo(float destX, float speed) {
+        if(!canMove) {
+            // we're not at the destination, but we can't move this frame
+            return true;
+        }
+
         float xDiff = transform.position.x - destX;
         if(xDiff > 0 && facingRight || xDiff < 0 && !facingRight) {
             TurnAround();
