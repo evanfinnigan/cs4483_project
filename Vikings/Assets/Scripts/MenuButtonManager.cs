@@ -18,6 +18,11 @@ public class MenuButtonManager : MonoBehaviour
         StartCoroutine(LoadSceneWithWait(sceneIndex));
     }
 
+    public void LoadByName(string scene)
+    {
+        SceneManager.LoadScene(scene);
+    }
+
     IEnumerator LoadSceneWithWait(int sceneIndex)
     {
         yield return new WaitForSeconds(0.3f);
