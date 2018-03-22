@@ -42,7 +42,7 @@ public class ActorController : MonoBehaviour {
     protected void Update() {
         //Debug.Log("Updating controller for " + name);
         //Debug.Log(transform.position);
-        if(transform.position.y < -15) {
+        if(transform.position.y < -10) {
             Debug.Log(name + " fell off the map");
             Die();
         }
@@ -50,6 +50,9 @@ public class ActorController : MonoBehaviour {
 
     protected void FixedUpdate() {
         
+    }
+
+    protected void LateUpdate() {
     }
 
     protected void TurnAround() {
@@ -130,7 +133,7 @@ public class ActorController : MonoBehaviour {
         return this != null && hp > 0;
     }
 
-    // Note that this die DESTROYS this object. So, if you want to do any on-death stuff,
+    // Note that this die DESTROYS this object. So, if you want to do any on-death stuff in subclass,
     // call this AFTER.
     public void Die() {
         Debug.Log(name + " is dead");

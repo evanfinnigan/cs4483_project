@@ -3,8 +3,10 @@ using System.Collections;
 
 public class EnemyController : ActorController {
 
-    public float speed = 0.25f;
-    public float turnSpeed = 40f;
+    public float patrolSpeed = 8f;
+    public float chaseSpeed = 20f;
+    //public float turnSpeed = 40f;
+    public const int visionRange = 25;
 
     //public Vector2[] patrolPoints;
 
@@ -29,7 +31,7 @@ public class EnemyController : ActorController {
         if(lastSeenPlayerLoc != null || foundPlayer) {
             Debug.Log(name + " chasing player to " + lastSeenPlayerLoc);
             // attack them if can, else move to last known loc
-            if( !MoveTo(((Vector2)lastSeenPlayerLoc).x) ) {
+            if(!MoveTo(( (Vector2)lastSeenPlayerLoc ).x, chaseSpeed)) {
                 // reached last known loc; this means we have lost track of player.
                 lastSeenPlayerLoc = null;
             }
@@ -38,7 +40,7 @@ public class EnemyController : ActorController {
         else if(patrolPointsX.Length > 0) {
             float patrolTarget = patrolPointsX[currentPatrolPoint];
             // Debug.Log(name + " moving to patrol point " + currentPatrolPoint);
-            if (!MoveTo(patrolTarget)) {
+            if (!MoveTo(patrolTarget, patrolSpeed)) {
                 // try to move to the current patrol point. 
                 // If already reached it, iterate to the next patrol point.
                 currentPatrolPoint++;
@@ -55,7 +57,7 @@ public class EnemyController : ActorController {
     }
 
     // Move to a location. Returns if any moving was actually performed - ie returns false if already at location.
-    bool MoveTo(float destX) {
+    bool MoveTo(float destX, float speed) {
         float xDiff = transform.position.x - destX;
         if(xDiff > 0 && facingRight || xDiff < 0 && !facingRight) {
             TurnAround();
@@ -67,7 +69,9 @@ public class EnemyController : ActorController {
             return false;
         }
 
-        transform.position = Vector2.MoveTowards(transform.position, new Vector2(destX, transform.position.y), speed);
+        animator.SetFloat("speed", speed);
+        transform.position = Vector2.MoveTowards(transform.position, new Vector2(destX, transform.position.y), 
+            speed / 50);
 
         return true;
     }
@@ -92,16 +96,21 @@ public class EnemyController : ActorController {
 
     // Check to see if player is in line of vision. If so, set lastSeenPlayerLoc, and return true.
     bool LookForPlayer() {
-        const int visionRange = 25;
+        Vector3 raySource = transform.position;
+        // We have to cast the ray from lower because the enemy's sprite is much bigger than the enemy appears
+        // so, to prevent casting the ray too high:
+        raySource.y -= 1;
 
-        Debug.DrawRay(transform.position, transform.right * visionRange, Color.white);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right * visionRange);
+        Vector3 rayDir = ( facingRight ? 1 : -1 ) * transform.right * visionRange;
+
+        Debug.DrawRay(raySource, rayDir, Color.white);
+        RaycastHit2D hit = Physics2D.Raycast(raySource, rayDir);
         if(!hit) {
             return false;
         }
 
         GameObject other = hit.collider.gameObject;
-        // Debug.Log("Hit " + other.name);
+        //Debug.Log("enemy eye ray hit " + other.name);
 
         if (other.GetComponent<PlayerController>() != null) {
             // we can see the player, we have to chase them
@@ -111,5 +120,19 @@ public class EnemyController : ActorController {
             return true;
         }
         return false;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+        if(player != null) {
+            // enemy is bumping into player
+            lastSeenPlayerLoc = collision.gameObject.transform.position;
+
+            MeleeAttack();
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision) {
+        OnCollisionEnter2D(collision);
     }
 }

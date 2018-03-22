@@ -59,7 +59,9 @@ public class PlayerController : ActorController {
 
     }
 
-    protected void LateUpdate() {
+    new protected void LateUpdate() {
+        base.LateUpdate();
+
         animator.SetFloat("speed", Mathf.Abs(rb.velocity.x));
         animator.SetBool("jumping", !IsOnGround());
 
