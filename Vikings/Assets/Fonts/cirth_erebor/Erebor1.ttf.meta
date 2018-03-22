@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: ea7bfd44adecbcc4999fd48b5f13e6f9
+timeCreated: 1520406195
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Cirth Erebor-1
+  fontNames:
+  - Cirth Erebor-1
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
