@@ -146,4 +146,9 @@ public class PlayerController : ActorController {
         base.Die();
     }
 
+    public void KillPlayer()
+    {
+        Die(false);
+    }
+
 }
