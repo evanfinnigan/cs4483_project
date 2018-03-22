@@ -28,7 +28,27 @@ public class MoveBoat : MonoBehaviour {
 
     private void Start()
     {
-        uiPosition = new Vector3Int(0, 0, 0);
+        if (!PlayerPrefs.HasKey("xCoord") || !PlayerPrefs.HasKey("yCoord"))
+        {
+            uiPosition = new Vector3Int(0, 0, 0);
+        }
+        else
+        {
+            if (PlayerPrefs.HasKey("xCoord"))
+            {
+                xCoordinate = PlayerPrefs.GetInt("xCoord");
+            }
+
+            if (PlayerPrefs.HasKey("yCoord"))
+            {
+                yCoordinate = PlayerPrefs.GetInt("yCoord");
+            }
+
+            transform.position = new Vector3Int(xCoordinate, yCoordinate, 0);
+            uiPosition = new Vector3Int(xCoordinate * 2, yCoordinate * 2, 0);
+            Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z);
+        }
+
         path = new Queue<Vector3Int>();
     }
 
@@ -84,6 +104,10 @@ public class MoveBoat : MonoBehaviour {
         }
         if (updateCoords)
         {
+            PlayerPrefs.SetInt("xCoord", xCoordinate);
+            PlayerPrefs.SetInt("yCoord", yCoordinate);
+            PlayerPrefs.Save();
+
             uiPosition = new Vector3Int(xCoordinate * 2, yCoordinate * 2, 0);
 
             Vector3Int addToPath = new Vector3Int(xCoordinate, yCoordinate, 0);
