@@ -137,7 +137,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1301120016691666}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4, y: -3, z: 0}
+  m_LocalPosition: {x: -2.61, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4794106050380812}
@@ -254,7 +254,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.24024498, y: -0.8278401}
@@ -279,7 +279,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.24024498, y: -0.8278401}
@@ -304,7 +304,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.15871383, y: 0.09006231}
@@ -319,7 +319,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.15871374, y: 0.16624108}
@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  hKnockback: 100
+  hKnockback: 300
   vKnockback: 100
 --- !u!114 &114307254464701678
 MonoBehaviour:
@@ -396,7 +396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  hKnockback: 100
+  hKnockback: 300
   vKnockback: 100
 --- !u!114 &114411060450336562
 MonoBehaviour:
@@ -418,8 +418,8 @@ MonoBehaviour:
   chaseSpeed: 20
   isRanged: 0
   patrolPointsX:
-  - 4.75
-  - 8.4
+  - -6.45
+  - -2.6
 --- !u!114 &114658430135121782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -432,7 +432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  hKnockback: 100
+  hKnockback: 300
   vKnockback: 100
 --- !u!114 &114822017393467200
 MonoBehaviour:
@@ -446,7 +446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  hKnockback: 100
+  hKnockback: 300
   vKnockback: 100
 --- !u!212 &212103941131925990
 SpriteRenderer:

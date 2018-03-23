@@ -32,7 +32,7 @@ public class MeleeHitbox : MonoBehaviour {
         holder.GetActorsHitThisFrame().Clear();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
+    private void OnTriggerEnter2D(Collider2D collision) {
         ActorController other = collision.gameObject.GetComponent<ActorController>();
         if(other != null && !holder.GetActorsHitThisFrame().Contains(other)) {
             // Someone important got hit!

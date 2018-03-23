@@ -413,14 +413,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1459902411524044, guid: d0e473273d077e24c9e82a00387c1c7e, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1846580757108578, guid: d0e473273d077e24c9e82a00387c1c7e, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d0e473273d077e24c9e82a00387c1c7e, type: 2}
   m_IsPrefabParent: 0
@@ -660,20 +652,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4123123327917976, guid: d0e473273d077e24c9e82a00387c1c7e, type: 2}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114411060450336562, guid: d0e473273d077e24c9e82a00387c1c7e,
-        type: 2}
-      propertyPath: patrolPointsX.Array.data[1]
-      value: -2.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114411060450336562, guid: d0e473273d077e24c9e82a00387c1c7e,
-        type: 2}
-      propertyPath: patrolPointsX.Array.data[0]
-      value: -6.45
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d0e473273d077e24c9e82a00387c1c7e, type: 2}
   m_IsPrefabParent: 0
@@ -882,6 +860,26 @@ Prefab:
     - target: {fileID: 4162986597109916, guid: f67c2b91640b5804f8d78ae4e48d7715, type: 2}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114822055735200016, guid: f67c2b91640b5804f8d78ae4e48d7715,
+        type: 2}
+      propertyPath: hKnockback
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 114479481100108536, guid: f67c2b91640b5804f8d78ae4e48d7715,
+        type: 2}
+      propertyPath: hKnockback
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 114385830193489074, guid: f67c2b91640b5804f8d78ae4e48d7715,
+        type: 2}
+      propertyPath: hKnockback
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 114053147652571880, guid: f67c2b91640b5804f8d78ae4e48d7715,
+        type: 2}
+      propertyPath: hKnockback
+      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f67c2b91640b5804f8d78ae4e48d7715, type: 2}
