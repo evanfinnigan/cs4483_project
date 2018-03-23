@@ -17,7 +17,9 @@ public class GameState : MonoBehaviour
     // excavated in 1880 by Nicolay Nicolaysen.It was approximately 23 m (75 feet) 
     // long with 16 rowing positions.
     private static int maxCrew = 16;
-    private static int crew = 16;
+
+    [SerializeField]
+    private int crew = 16;
 
     public enum Weapon
     {
@@ -27,9 +29,11 @@ public class GameState : MonoBehaviour
         bow
     }
 
-    private static Weapon equippedWeapon = Weapon.none;
+    [SerializeField]
+    private Weapon equippedWeapon = Weapon.none;
 
-    private static int gold;
+    [SerializeField]
+    private int gold;
 
 
 
