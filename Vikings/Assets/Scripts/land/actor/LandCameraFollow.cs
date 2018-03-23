@@ -4,7 +4,7 @@ using System.Collections;
 public class LandCameraFollow : MonoBehaviour {
 
     [SerializeField]
-    private Vector3 offset;
+    private Vector3? offset;
 
     [SerializeField]
     private GameObject follow;
@@ -12,7 +12,7 @@ public class LandCameraFollow : MonoBehaviour {
     // Use this for initialization
     void Start() {
         //offset = transform.position - follow.transform.position;
-        if(offset == null || offset == null) {
+        if(offset == null || follow == null) {
             Debug.LogError("LandCameraFollow behaviour missing fields on " + name);
         }
     }
@@ -20,7 +20,7 @@ public class LandCameraFollow : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if(follow != null) {
-            transform.position = follow.transform.position + offset;
+            transform.position = follow.transform.position + (Vector3)offset;
         }
     }
 }
