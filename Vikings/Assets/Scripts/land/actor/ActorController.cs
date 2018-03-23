@@ -36,8 +36,7 @@ public class ActorController : MonoBehaviour {
     protected bool canMelee = true;
     protected bool canMove = true;
 
-    // TODO should not assume player starts facing right (enemies will immediately correct this if they aren't)
-    protected bool facingRight = true;
+    protected bool facingRight;
 
     protected float projectileCooldown = 1.2f;
     protected float meleeCooldown = 1f;
@@ -51,6 +50,8 @@ public class ActorController : MonoBehaviour {
         meleeHitboxes = gameObject.GetComponentsInChildren<MeleeHitbox>(true);
 
         actorsHitThisFrame = new List<ActorController>();
+
+        facingRight = !sprenderer.flipX;
 
         if(projectilePrefab == null) {
             Debug.LogWarning("No projectile prefab set for actor " + name);
@@ -155,12 +156,18 @@ public class ActorController : MonoBehaviour {
         // Debug.Log(name + " toggling melee hitboxes");
         foreach(MeleeHitbox hb in meleeHitboxes) {
             bool on = 0 != newState;
-            hb.gameObject.SetActive(on);
 
             if(on) {
-                // Adjust the hitbox's position to match the direction the actor is facing
-                hb.MoveToCorrectSideOfActor(facingRight);
-                //Debug.Log("Moved HB to " + hb.transform.localPosition);
+                // Relies on the hitboxes having names with "left" and "right"
+                if((facingRight && hb.name.ToLower().Contains("right")) 
+                    || (!facingRight && hb.name.ToLower().Contains("left"))) {
+
+                    hb.gameObject.SetActive(true);
+                }
+            }
+            else {
+                // disable all
+                hb.gameObject.SetActive(false);
             }
         }
     }

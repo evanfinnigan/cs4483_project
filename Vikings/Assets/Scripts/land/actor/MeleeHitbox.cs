@@ -9,14 +9,8 @@ public class MeleeHitbox : MonoBehaviour {
     public int hKnockback = 200;
     public int vKnockback = 200;
 
-    // Set the hitbox's x position in the editor to match the hitbox on the sprite's right side.
-    // Then set this variable to the x position which matches the hitbox on the sprite's LEFT side.
-    // When the actor turns around, the hitbox's position will swap.
-    public float leftXLocalPosition;
-    public float rightXLocalPosition;
-
-    // The character holding the melee weapon - can be set in editor
-    public ActorController holder;
+    // The character holding the melee weapon
+    private ActorController holder;
 
     //private Collider2D collid;
 
@@ -67,13 +61,4 @@ public class MeleeHitbox : MonoBehaviour {
             }
         }
     }    
-
-    public void MoveToCorrectSideOfActor(bool isFacingRight) {
-        if(isFacingRight) {
-            transform.localPosition = new Vector2(rightXLocalPosition, transform.localPosition.y);
-        }
-        else {
-            transform.localPosition = new Vector2(leftXLocalPosition, transform.localPosition.y);
-        }
-    }
 }
