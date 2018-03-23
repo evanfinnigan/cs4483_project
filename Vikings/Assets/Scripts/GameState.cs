@@ -38,6 +38,8 @@ public class GameState : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    // Save / Load
+
     public void LoadStats()
     {
         if (PlayerPrefs.HasKey("crew"))
@@ -63,6 +65,8 @@ public class GameState : MonoBehaviour
         PlayerPrefs.SetInt("gold", gold);
     }
 
+    // Crew
+    
     public int GetCrew()
     {
         return crew;
@@ -93,6 +97,8 @@ public class GameState : MonoBehaviour
         return crew;
     }
 
+    // Weapon
+
     public Weapon GetWeapon()
     {
         return equippedWeapon;
@@ -102,6 +108,8 @@ public class GameState : MonoBehaviour
     {
         equippedWeapon = w;
     }
+
+    // Gold
 
     public int GetGold()
     {
