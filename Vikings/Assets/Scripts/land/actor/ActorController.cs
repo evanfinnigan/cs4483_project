@@ -87,10 +87,10 @@ public class ActorController : MonoBehaviour {
 
         // The bow attack animation will then call StartShoot, Shoot, EndShoot
         animator.SetBool(ANIM_ATTACKING, true);
-        Debug.Log("RangedAttack");
+        //Debug.Log("RangedAttack");
 
         // start cooldown timer
-        Debug.Log("Can't shoot");
+        //Debug.Log("Can't shoot");
         canShoot = false;
         StartCoroutine(ToggleCanShoot());
         
@@ -100,26 +100,26 @@ public class ActorController : MonoBehaviour {
     // called BY THE ANIMATION to root actor while they fire
     public void StartShoot() {
         animator.SetBool(ANIM_ATTACKING, false);
-        Debug.Log("StartShoot");
+        //Debug.Log("StartShoot");
         canMove = false;
     }
 
     // called BY THE ANIMATION to make sure projectile spawn lines up with animation
     public void Shoot() {
-        Debug.Log("Shoot");
+        //Debug.Log("Shoot");
         ProjectileManager.instance().NewProjectile(this, facingRight);
     }
 
     // called BY THE ANIMATION to unroot actor once they're done firing
     public void EndShoot() {
-        Debug.Log("EndShoot");
+        //Debug.Log("EndShoot");
         canMove = true;
     }
 
     //Toggles the canShoot variable to false for [cooldown] amount of seconds
     protected IEnumerator ToggleCanShoot() {
         yield return new WaitForSeconds(projectileCooldown);
-        Debug.Log("Can shoot");
+        //Debug.Log("Can shoot");
         canShoot = true;
     }
 

@@ -68,7 +68,7 @@ public class PlayerController : ActorController {
 
         // Attack
         if (Input.GetButton("Jump") /*|| Input.GetButton("Fire1")*/) {
-            Debug.Log("Attack!");
+            //Debug.Log("Attack!");
             if(meleeMode) {
                 MeleeAttack();
             }
@@ -153,12 +153,6 @@ public class PlayerController : ActorController {
         sprenderer.flipY = true;
 
         // then they die from falling
-    }
-
-    // not used anymore
-    protected IEnumerator DieAfterDelay() {
-        yield return new WaitForSeconds(2);
-        base.Die();
     }
 
     public void KillPlayer()

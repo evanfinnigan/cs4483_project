@@ -1062,22 +1062,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 212673118002320538, guid: 73d678918361d1f4085b6f320ffd63e4,
-        type: 2}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 0b1ac9375ff3f91428cfebd50a4bf84a,
-        type: 3}
-    - target: {fileID: 95847825401209614, guid: 73d678918361d1f4085b6f320ffd63e4,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 95847825401209614, guid: 73d678918361d1f4085b6f320ffd63e4,
-        type: 2}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: a0c1cc1f8c29ab140a3162817a2e9e2c, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 73d678918361d1f4085b6f320ffd63e4, type: 2}
   m_IsPrefabParent: 0
@@ -1244,6 +1228,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114479481100108536, guid: f67c2b91640b5804f8d78ae4e48d7715,
+        type: 2}
+      propertyPath: damage
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f67c2b91640b5804f8d78ae4e48d7715, type: 2}
   m_IsPrefabParent: 0
@@ -1371,5 +1360,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e32c0b35e209c6f4ebd7942b632c8c49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0, y: 0, z: -10}
+  offset: {x: 0, y: 3, z: -10}
   follow: {fileID: 381798569}
