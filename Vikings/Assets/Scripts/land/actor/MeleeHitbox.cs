@@ -36,7 +36,7 @@ public class MeleeHitbox : MonoBehaviour {
         ActorController other = collision.gameObject.GetComponent<ActorController>();
         if(other != null && !holder.GetActorsHitThisFrame().Contains(other)) {
             // Someone important got hit!
-            Debug.Log(collision.gameObject.name + " got smacked by " + name);
+            Debug.Log(collision.gameObject.name + " got smacked by " + holder.name);
             other.TakeDamage(damage);
             holder.GetActorsHitThisFrame().Add(other);
 
@@ -51,11 +51,11 @@ public class MeleeHitbox : MonoBehaviour {
                 if (collision.contacts.Length > 0 && 
                     collision.contacts[0].point.x > collision.otherCollider.bounds.center.x) {*/
                 if(holder.transform.position.x < other.transform.position.x) {
-                    //Debug.Log("Knocking back 1");
+                    Debug.Log("Knocking back positive");
                     rb.AddForce(new Vector2(hKnockback, vKnockback));
                 }
                 else {
-                    //Debug.Log("Knocking back 2");
+                    Debug.Log("Knocking back negative");
                     rb.AddForce(new Vector2(-hKnockback, vKnockback));
                 }
             }

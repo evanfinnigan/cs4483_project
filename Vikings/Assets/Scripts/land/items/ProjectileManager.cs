@@ -36,6 +36,10 @@ public class ProjectileManager : MonoBehaviour {
     }
 
     public void NewProjectile(ActorController shooter, bool facingRight) {
+        if(!shooter.IsAlive()) {
+            return;
+        }
+
         int direction = facingRight ? 1 : -1;
 
         // Be careful not to use 'transform' here, use 'shooter' instead.

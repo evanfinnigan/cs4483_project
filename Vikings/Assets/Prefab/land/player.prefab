@@ -133,8 +133,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1860493771600210}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.53, y: -3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -8.62, y: -3, z: 0}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1}
   m_Children:
   - {fileID: 4724061625952816}
   - {fileID: 4134099249272534}
@@ -368,8 +368,8 @@ MonoBehaviour:
   projectileSpeed: {x: 25, y: 0}
   projectilePrefab: {fileID: 1066230529714612, guid: 31ad160fe054b424bb8e695c6edff28b,
     type: 2}
-  maxSpeed: 10
-  jumpPower: 200
+  maxSpeed: 8
+  jumpPower: 220
   jumpDelaySecs: 0.5
   meleeAnimationController: {fileID: 9100000, guid: 4a823fa40c95df94e877139254041129,
     type: 2}

@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimatorDisableParent : StateMachineBehaviour {
+public class AnimatorDestroyActorParent : StateMachineBehaviour {
 
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		GameObject.Destroy(animator.gameObject.transform.parent.gameObject);
+        ActorController actor = animator.gameObject.GetComponentInParent<ActorController>();
+        if(actor == null) {
+            Debug.LogWarning("Actor destroyer not attached to actor");
+        }
+        else {
+            Destroy(actor.gameObject);
+        }
 	}
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
