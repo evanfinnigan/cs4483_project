@@ -81,7 +81,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4015209485012742
 Transform:
   m_ObjectHideFlags: 1
@@ -324,6 +324,10 @@ MonoBehaviour:
   maxSpeed: 10
   jumpPower: 200
   jumpDelaySecs: 0.5
+  meleeAnimationController: {fileID: 9100000, guid: 4a823fa40c95df94e877139254041129,
+    type: 2}
+  rangedAnimationController: {fileID: 9100000, guid: a0c1cc1f8c29ab140a3162817a2e9e2c,
+    type: 2}
 --- !u!212 &212610094201562806
 SpriteRenderer:
   m_ObjectHideFlags: 1

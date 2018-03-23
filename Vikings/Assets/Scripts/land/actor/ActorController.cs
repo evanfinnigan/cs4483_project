@@ -39,7 +39,7 @@ public class ActorController : MonoBehaviour {
     // TODO should not assume player starts facing right (enemies will immediately correct this if they aren't)
     protected bool facingRight = true;
 
-    protected float projectileCooldown = 1f;
+    protected float projectileCooldown = 1.2f;
     protected float meleeCooldown = 1f;
 
     // Use this for initialization
@@ -87,34 +87,39 @@ public class ActorController : MonoBehaviour {
 
         // The bow attack animation will then call StartShoot, Shoot, EndShoot
         animator.SetBool(ANIM_ATTACKING, true);
-        Debug.Break();
+        Debug.Log("RangedAttack");
+
+        // start cooldown timer
+        Debug.Log("Can't shoot");
+        canShoot = false;
+        StartCoroutine(ToggleCanShoot());
+        
+        //Debug.Break();
     }
 
     // called BY THE ANIMATION to root actor while they fire
     public void StartShoot() {
         animator.SetBool(ANIM_ATTACKING, false);
-        //Debug.Log("StartShoot");
+        Debug.Log("StartShoot");
         canMove = false;
     }
 
     // called BY THE ANIMATION to make sure projectile spawn lines up with animation
     public void Shoot() {
-        //Debug.Log("EndShoot");
+        Debug.Log("Shoot");
         ProjectileManager.instance().NewProjectile(this, facingRight);
-
-        //start cooldown timer
-        StartCoroutine(ToggleCanShoot());
     }
 
     // called BY THE ANIMATION to unroot actor once they're done firing
     public void EndShoot() {
+        Debug.Log("EndShoot");
         canMove = true;
     }
 
     //Toggles the canShoot variable to false for [cooldown] amount of seconds
     protected IEnumerator ToggleCanShoot() {
-        canShoot = false;
         yield return new WaitForSeconds(projectileCooldown);
+        Debug.Log("Can shoot");
         canShoot = true;
     }
 
@@ -125,7 +130,7 @@ public class ActorController : MonoBehaviour {
         }
 
         //Debug.Log(name + " attack!");
-        animator.SetBool("attacking", true);
+        animator.SetBool(ANIM_ATTACKING, true);
 
         //Debug.Break();
         StartCoroutine(ToggleCanMelee());
