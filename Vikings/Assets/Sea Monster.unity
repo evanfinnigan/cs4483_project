@@ -525,11 +525,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 220933687}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8effd946d12e4304488d890273fad33a, type: 3}
+  m_Script: {fileID: 11500000, guid: 1df31b8ef12b2964981ed7b38112c4cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2076873310}
-  winCanvas: {fileID: 220933687}
+  winCanvas: {fileID: 46750853}
   fadeImage: {fileID: 1593767444}
   textPanel: {fileID: 895240861}
   button: {fileID: 2087836718}
@@ -5055,7 +5055,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 790234593}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59748e5a71920f7458baf04530251165, type: 3}
+  m_Script: {fileID: 11500000, guid: e1aa1e4b2c92ac54197644dfa4942b23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   deathCanvas: {fileID: 9692160}
@@ -5065,7 +5065,7 @@ MonoBehaviour:
   button2: {fileID: 1465281376}
   buttonSound: {fileID: 1808603975}
   music: {fileID: 472256818}
-  deathMusic: {fileID: 8300000, guid: 24663c82d510d764b81eb305773176a1, type: 3}
+  deathMusic: {fileID: 8300000, guid: ec17a0ed51db7dd4fa966f0e6741bce3, type: 3}
 --- !u!1 &831107616
 GameObject:
   m_ObjectHideFlags: 0
@@ -6150,7 +6150,7 @@ Animator:
   m_GameObject: {fileID: 2076873310}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 75b73e79c37eaa742bf2fc8867308692, type: 2}
+  m_Controller: {fileID: 9100000, guid: 15475f25fd134f344bca82ad20963653, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -6214,7 +6214,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 9b19e30f9469b134fad5ec6e7407680d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 643055dade3e350408582404033e74c6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
