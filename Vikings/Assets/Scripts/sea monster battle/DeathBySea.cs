@@ -7,10 +7,14 @@ using UnityEngine.SceneManagement;
 public class DeathBySea : MonoBehaviour
 {
 
+    public GameObject playerObject;
+
     public GameObject deathCanvas;
+    public GameObject deathByMonsterCanvas;
     public Image fadeImage;
 
     public GameObject textPanel;
+    public GameObject monsterDeathTextPanel;
 
     public GameObject button1;
     public GameObject button2;
@@ -19,18 +23,36 @@ public class DeathBySea : MonoBehaviour
     public AudioSource music;
     public AudioClip deathMusic;
 
+    private bool died = false;
+
+    private void FixedUpdate()
+    {
+        if (playerObject == null && !died)
+        {
+            died = true;
+            deathByMonsterCanvas.SetActive(true);
+            StartCoroutine(DrownCoroutine(true));
+            PlayerController player = null;
+            if ((player = GetComponent<PlayerController>()) != null)
+            {
+                player.KillPlayer();
+            }
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         PlayerController player = null;
         if ((player = collision.GetComponent<PlayerController>()) != null)
         {
+            died = true;
             deathCanvas.SetActive(true);
             StartCoroutine(DrownCoroutine());
             player.KillPlayer();
         }
     }
 
-    public IEnumerator DrownCoroutine()
+    public IEnumerator DrownCoroutine(bool monsterDeath = false)
     {
 
         while (fadeImage.color.a < 0.8f)
@@ -46,7 +68,14 @@ public class DeathBySea : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
 
         buttonSound.Play();
-        textPanel.SetActive(true);
+        if (monsterDeath)
+        {
+            monsterDeathTextPanel.SetActive(true);
+        }
+        else
+        {
+            textPanel.SetActive(true);
+        }
 
         yield return new WaitForSeconds(0.5f);
 
