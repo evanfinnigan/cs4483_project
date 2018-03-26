@@ -5065,7 +5065,7 @@ MonoBehaviour:
   button2: {fileID: 1465281376}
   buttonSound: {fileID: 1808603975}
   music: {fileID: 472256818}
-  deathMusic: {fileID: 8300000, guid: ec17a0ed51db7dd4fa966f0e6741bce3, type: 3}
+  deathMusic: {fileID: 8300000, guid: 24663c82d510d764b81eb305773176a1, type: 3}
 --- !u!1 &831107616
 GameObject:
   m_ObjectHideFlags: 0
