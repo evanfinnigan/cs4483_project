@@ -70,6 +70,13 @@ public class WinBattle : MonoBehaviour
         music.volume = 0.5f;
         music.Play();
 
+        GameState g = GetComponent<GameState>();
+        if (g != null)
+        {
+            // Win, get some gold
+            g.AddGold(1000);
+        }
+
         yield return null;
 
     }

@@ -64,6 +64,13 @@ public class DeathBySea : MonoBehaviour
         music.volume = 0.5f;
         music.Play();
 
+        GameState g = GetComponent<GameState>();
+        if (g != null)
+        {
+            // Die, lose a life
+            g.RemoveCrew();
+        }
+
         yield return null;
 
     }

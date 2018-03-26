@@ -223,9 +223,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 317734505}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0f2047b891c06c429911e33271fd9c4, type: 3}
+  m_Script: {fileID: 11500000, guid: ca052fd1d5a57ad46b8d485933d13344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  crew: 16
+  equippedWeapon: 0
+  gold: 0
 --- !u!1 &357766507
 GameObject:
   m_ObjectHideFlags: 0
