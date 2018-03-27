@@ -224,9 +224,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 317734505}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e06f19c3418a32747b212c694a4e18cc, type: 3}
+  m_Script: {fileID: 11500000, guid: d0ca4d08c571821409ff3371e319b7fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  crew: 16
+  equippedWeapon: 0
+  gold: 0
 --- !u!1 &357766507
 GameObject:
   m_ObjectHideFlags: 0
@@ -946,7 +949,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
           m_FloatArgument: 0
-          m_StringArgument: ChooseSave
+          m_StringArgument: main
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
