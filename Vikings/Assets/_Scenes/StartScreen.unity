@@ -864,7 +864,7 @@ Prefab:
     - target: {fileID: 114689722152711470, guid: f29913b1d8299f04c8bcede5f02ad2db,
         type: 2}
       propertyPath: equippedWeapon
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114689722152711470, guid: f29913b1d8299f04c8bcede5f02ad2db,
         type: 2}
