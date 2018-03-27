@@ -70,7 +70,7 @@ public class WinBattle : MonoBehaviour
         music.volume = 0.5f;
         music.Play();
 
-        GameState g = GetComponent<GameState>();
+        GameState g = FindObjectOfType<GameState>();
         if (g != null)
         {
             // Win, get some gold
