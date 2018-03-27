@@ -15,7 +15,6 @@ public class HUD : MonoBehaviour
     public GameObject swordObj;
     public GameObject noneObj;
     public GameObject bowObj;
-    GameObject go;
 
     void Start()
     {
@@ -23,8 +22,7 @@ public class HUD : MonoBehaviour
         swordObj = GameObject.Find("Sword Panel");
         noneObj = GameObject.Find("None Panel");
         bowObj = GameObject.Find("Bow Panel");
-        go = GameObject.Find("GameState");
-        state = go.GetComponent<GameState>();
+        state = FindObjectOfType<GameState>();
     }
 
     void Update ()
