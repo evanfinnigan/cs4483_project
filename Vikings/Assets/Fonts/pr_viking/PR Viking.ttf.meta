@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: ee1a8f8c29349cc418cb21a5fbd9f0dd
+timeCreated: 1520406195
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: PR Viking
+  fontNames:
+  - PR Viking
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
