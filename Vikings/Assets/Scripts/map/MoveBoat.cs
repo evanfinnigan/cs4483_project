@@ -54,6 +54,11 @@ public class MoveBoat : MonoBehaviour {
 
     private void Update()
     {
+        if (Time.timeScale == 0.0f)
+        {
+            return;
+        }
+
         bool updateCoords = false;
 
         if (Input.GetKeyDown(KeyCode.RightArrow)
