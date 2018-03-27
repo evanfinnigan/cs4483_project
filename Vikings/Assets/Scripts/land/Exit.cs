@@ -23,6 +23,7 @@ public class Exit : MonoBehaviour {
             }
             else {
                 Debug.Log("Good job ur done the level");
+                FindObjectOfType<WinBattle>().Win();
             }
         }
     }

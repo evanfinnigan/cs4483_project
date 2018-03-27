@@ -155,8 +155,7 @@ public class PlayerController : ActorController {
         // then they die from falling
     }
 
-    public void KillPlayer()
-    {
+    public void KillPlayer() {
         Die(false);
     }
 

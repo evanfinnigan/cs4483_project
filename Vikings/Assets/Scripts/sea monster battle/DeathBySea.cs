@@ -23,7 +23,7 @@ public class DeathBySea : MonoBehaviour
     public AudioSource music;
     public AudioClip deathMusic;
 
-    private bool died = false;
+    public bool died = false;
 
     private void FixedUpdate()
     {
@@ -106,7 +106,8 @@ public class DeathBySea : MonoBehaviour
 
     public void TryAgain()
     {
-        SceneManager.LoadScene("Sea Monster");
+        string currentScene = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentScene);
     }
 
     public void GiveUp()
