@@ -8,7 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6aa763d22e88a5745871d0aab57a2ad3, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ed7f3639620ce648927c91232353492, type: 3}
   m_Name: water_large_01
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 21300034, guid: 4c0b93d1f0f394342bd3ea2bfc1e74ae, type: 3}
@@ -40,4 +40,8 @@ MonoBehaviour:
   - {fileID: 21300188, guid: 4c0b93d1f0f394342bd3ea2bfc1e74ae, type: 3}
   - {fileID: 21300192, guid: 4c0b93d1f0f394342bd3ea2bfc1e74ae, type: 3}
   - {fileID: 21300196, guid: 4c0b93d1f0f394342bd3ea2bfc1e74ae, type: 3}
-  preview: {fileID: 21300034, guid: 4c0b93d1f0f394342bd3ea2bfc1e74ae, type: 3}
+  preview: {fileID: 0}
+  speed: 1
+  minStartTime: 0
+  maxStartTime: 0
+  m_TileColliderType: 0
