@@ -17,9 +17,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/StartScreen.unity
     guid: ad56d6fd0270a6c4884cac218a0437f5
-  - enabled: 1
-    path: Assets/_Scenes/land.unity
-    guid: 6105f2ddcba010645a08c6e28b92549a
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/_Scenes/Sea Monster.unity
-    guid: 9a9b5bb85f8a9264db91201f693338b9
+    guid: dc684053e53ddce4285fc727bfbc63a1
+  - enabled: 1
+    path: Assets/_Scenes/land.unity
+    guid: 6c630370f855d5f43906f69a31ba86f4
+  - enabled: 1
+    path: Assets/_Scenes/ChooseSave.unity
+    guid: 87d44f845bc64a043abd88d9755c146c
