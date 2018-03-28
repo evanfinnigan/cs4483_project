@@ -26,6 +26,8 @@ public class ActorController : MonoBehaviour {
     private List<ActorController> actorsHitThisFrame;
 
     public int hp = 1;
+    public int deathDepth = -40;
+
     // We store this for all actors, including melee-only enemies
     // Could subclass to make a ranged type which applies to the player and ranged enemies.
     public Vector2 projectileOffset = new Vector2(1f, -0.5f);
@@ -62,7 +64,7 @@ public class ActorController : MonoBehaviour {
     protected virtual void Update() {
         //Debug.Log("Updating controller for " + name);
         //Debug.Log(transform.position);
-        if(transform.position.y < -10) {
+        if(transform.position.y < deathDepth) {
             Debug.Log(name + " fell off the map");
             Die(true);
         }
