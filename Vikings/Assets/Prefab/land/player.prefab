@@ -302,7 +302,7 @@ Animator:
   m_GameObject: {fileID: 1860493771600210}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4a823fa40c95df94e877139254041129, type: 2}
+  m_Controller: {fileID: 9100000, guid: dc5355b9c71e42949b6e2a97e43ccff1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -322,7 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 2
-  hKnockback: 200
+  hKnockback: 300
   vKnockback: 100
 --- !u!114 &114385830193489074
 MonoBehaviour:
@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 2
-  hKnockback: 200
+  hKnockback: 300
   vKnockback: 100
 --- !u!114 &114479481100108536
 MonoBehaviour:
@@ -350,7 +350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 2
-  hKnockback: 200
+  hKnockback: 300
   vKnockback: 100
 --- !u!114 &114621234754481088
 MonoBehaviour:
@@ -371,7 +371,7 @@ MonoBehaviour:
   maxSpeed: 8
   jumpPower: 220
   jumpDelaySecs: 0.5
-  meleeAnimationController: {fileID: 9100000, guid: 4a823fa40c95df94e877139254041129,
+  meleeAnimationController: {fileID: 9100000, guid: dc5355b9c71e42949b6e2a97e43ccff1,
     type: 2}
   rangedAnimationController: {fileID: 9100000, guid: a0c1cc1f8c29ab140a3162817a2e9e2c,
     type: 2}
@@ -387,7 +387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 2
-  hKnockback: 200
+  hKnockback: 300
   vKnockback: 100
 --- !u!212 &212610094201562806
 SpriteRenderer:
@@ -423,7 +423,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d1e90ed8c0d83f041b0647e33668452e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cab64f3b4246cf4469dae0435e754d3b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
