@@ -2,23 +2,28 @@
 
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
-//[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(FollowObject))]
 public class Projectile : MonoBehaviour {
 
     public int damage = 1;
 
     private Rigidbody2D rb;
     //private Collider2D collid;
-    //[SerializeField]
-    //private Animator animator;
+    private SpriteRenderer sprenderer;
+    private Animator animator;
+
+    private FollowObject followObj;
+
+    private ActorController creator;
 
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
-        if(rb == null) {
-            Debug.LogError("Projectile doesn't have a Rigidbody");
-        }
         //collid = GetComponent<Collider2D>();
-        //animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
+        followObj = GetComponent<FollowObject>();
+        sprenderer = GetComponent<SpriteRenderer>();
     }
 
     private void FixedUpdate() {
@@ -42,20 +47,46 @@ public class Projectile : MonoBehaviour {
         Debug.Log("projectile hit " + other.name);
 
         ActorController actor = other.GetComponent<ActorController>();
-        if(actor != null) {
+        if (actor != null) {
             // Hit an actor
             actor.TakeDamage(damage);
-            //animator.SetBool("impact_blood", true);
-        }
-        // Hit something other than an actor
-        else if(other.tag == ActorController.PLATFORM_TAG) {
-            //animator.SetBool("impact_object", true);
+            OnHit(other, true);
         }
         else {
             Debug.Log("projectile hit something else " + other.name);
+            OnHit(other, false);
         }
 
-        // There might be things we want to 'hit' but not destroy the bullet, then we'd have to move this.
+        // Let the animation destroy this
+        // Destroy(gameObject);
+    }
+
+    public void OnHit(GameObject other, bool isBlood) {
+        if(isBlood) {
+            animator.SetBool("impact_blood", true);
+        }
+        else {
+            animator.SetBool("impact_spark", true);
+        }
+
+        // arrow animation follows actor it hit
+        if (followObj != null) {
+            Vector3 offset = transform.position - other.transform.position;
+            followObj.SetOffset(offset);
+            followObj.SetTarget(other.transform);
+            followObj.Enable();
+        }
+    }
+
+    public void SetCreator(ActorController creator_) {
+        creator = creator_;
+    }
+
+    public bool IsPlayerProjectile() {
+        return creator.GetComponent<PlayerController>() != null;
+    }
+
+    public void Destroy() {
         Destroy(gameObject);
     }
 }

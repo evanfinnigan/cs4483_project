@@ -16,7 +16,7 @@ public class EnemyController : ActorController {
     public float[] patrolPointsX;
     private int currentPatrolPoint = 0;
 
-    private Vector2? lastSeenPlayerLoc;
+    public Vector2? lastSeenPlayerLoc;
 
     public int goldValue = 50;
 
