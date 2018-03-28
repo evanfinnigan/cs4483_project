@@ -68,7 +68,7 @@ public class DeathBySea : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
 
         buttonSound.Play();
-        if (monsterDeath)
+        if (monsterDeath || textPanel == null)
         {
             monsterDeathTextPanel.SetActive(true);
         }

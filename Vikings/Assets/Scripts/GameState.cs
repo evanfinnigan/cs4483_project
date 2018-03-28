@@ -128,6 +128,7 @@ public class GameState : MonoBehaviour
     public int AddGold(int g)
     {
         gold += g;
+        Debug.Log("Now you have " + gold + " gold");
         return gold;
     }
 

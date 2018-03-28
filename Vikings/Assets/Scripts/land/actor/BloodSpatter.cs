@@ -19,7 +19,7 @@ public class BloodSpatter : MonoBehaviour {
 	}
 
     void Animate() {
-        Debug.Log("Playing blood animation");
+        //Debug.Log("Playing blood animation");
         animator.SetBool("triggered", true);
     }
 }

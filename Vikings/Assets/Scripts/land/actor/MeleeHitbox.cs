@@ -34,6 +34,14 @@ public class MeleeHitbox : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision) {
         ActorController other = collision.gameObject.GetComponent<ActorController>();
+
+        // If the target is an enemy and is killed, give the player gold
+        int goldValue = 0;
+        EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
+        if(enemy != null) {
+            goldValue = enemy.goldValue;
+        }
+
         if(other != null && !holder.GetActorsHitThisFrame().Contains(other)) {
             // Someone important got hit!
             Debug.Log(collision.gameObject.name + " got smacked by " + holder.name);
@@ -51,12 +59,21 @@ public class MeleeHitbox : MonoBehaviour {
                 if (collision.contacts.Length > 0 && 
                     collision.contacts[0].point.x > collision.otherCollider.bounds.center.x) {*/
                 if(holder.transform.position.x < other.transform.position.x) {
-                    Debug.Log("Knocking back positive");
+                    //Debug.Log("Knocking back positive");
                     rb.AddForce(new Vector2(hKnockback, vKnockback));
                 }
                 else {
-                    Debug.Log("Knocking back negative");
+                    //Debug.Log("Knocking back negative");
                     rb.AddForce(new Vector2(-hKnockback, vKnockback));
+                }
+            }
+            else {
+                // The target died
+                if (goldValue != 0) {
+                    GameState state = FindObjectOfType<GameState>();
+                    if(state != null) {
+                        state.AddGold(enemy.goldValue);
+                    }
                 }
             }
         }

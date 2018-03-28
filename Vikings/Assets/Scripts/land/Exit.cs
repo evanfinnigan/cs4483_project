@@ -23,7 +23,21 @@ public class Exit : MonoBehaviour {
             }
             else {
                 Debug.Log("Good job ur done the level");
-                FindObjectOfType<WinBattle>().Win();
+                WinBattle win = FindObjectOfType<WinBattle>();
+                if(win != null) {
+                    win.Win();
+                }
+                else {
+                    Debug.LogError("No object with WinBattle behaviour");
+                }
+                GameState state = FindObjectOfType<GameState>();
+                if(state != null) {
+                    state.AddGold(500);
+                    state.AddCrew();
+                }
+                else {
+                    Debug.LogError("No object with GameState behaviour");
+                }
             }
         }
     }
