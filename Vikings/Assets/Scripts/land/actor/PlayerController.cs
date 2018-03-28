@@ -67,7 +67,7 @@ public class PlayerController : ActorController {
         animator.SetBool(ANIM_JUMPING, !IsOnGround());
 
         // Attack
-        if (Input.GetButton("Jump") /*|| Input.GetButton("Fire1")*/) {
+        if (Input.GetButtonDown("Jump") /*|| Input.GetButton("Fire1")*/) {
             //Debug.Log("Attack!");
             if(meleeMode) {
                 MeleeAttack();

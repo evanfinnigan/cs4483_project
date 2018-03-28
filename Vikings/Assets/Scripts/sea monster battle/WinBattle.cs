@@ -21,7 +21,7 @@ public class WinBattle : MonoBehaviour
     public AudioSource ambientSound;
     public AudioClip winMusic;
 
-    public bool runFixedUpdate = true;
+    public bool runFixedUpdate;
 
     bool won = false;
 
