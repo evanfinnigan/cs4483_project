@@ -278,10 +278,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
-  m_ReferencePixelsPerUnit: 100
+  m_ReferencePixelsPerUnit: 200
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -314,8 +314,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 357766507}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 274.5, y: 200.5, z: 0}
-  m_LocalScale: {x: 0.68625, y: 0.68625, z: 0.68625}
+  m_LocalPosition: {x: 276.5, y: 226, z: 0}
+  m_LocalScale: {x: 0.69125, y: 0.69125, z: 0.69125}
   m_Children:
   - {fileID: 1771093134}
   - {fileID: 244270612}
@@ -849,7 +849,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1771093133}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.3700027, y: -156.3876, z: 0}
+  m_LocalPosition: {x: -6.3700027, y: -191.16394, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 451724192}
