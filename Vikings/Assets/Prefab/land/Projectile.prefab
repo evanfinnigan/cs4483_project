@@ -20,9 +20,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4481552901625380}
   - component: {fileID: 50739707457941802}
+  - component: {fileID: 212158532380028052}
   - component: {fileID: 68062825442403042}
   - component: {fileID: 114971839513461944}
-  - component: {fileID: 212158532380028052}
+  - component: {fileID: 95470083510225834}
+  - component: {fileID: 114844352050256196}
   m_Layer: 2
   m_Name: Projectile
   m_TagString: Untagged
@@ -36,7 +38,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1066230529714612}
-  m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
+  m_LocalRotation: {x: -0, y: 0, z: -0.38268343, w: 0.92387956}
   m_LocalPosition: {x: 6, y: -7, z: -1}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
@@ -80,6 +82,36 @@ EdgeCollider2D:
   m_Points:
   - {x: -0.5, y: -0.5}
   - {x: 0.65, y: 0.65}
+--- !u!95 &95470083510225834
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1066230529714612}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c290053e52ac8b445a1592a6cedbb281, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114844352050256196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1066230529714612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e47be1952efd4574594725fb426b726b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
 --- !u!114 &114971839513461944
 MonoBehaviour:
   m_ObjectHideFlags: 1
