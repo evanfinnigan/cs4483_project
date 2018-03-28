@@ -7,9 +7,14 @@ public class PlayerController : ActorController {
     //Movement
     public float maxSpeed = 10f;
     public float jumpPower = 200f;
-    public float jumpDelaySecs = 0.5f;      // Delay between subsequent jumps 
+    public float jumpDelaySecs = 0.5f;      // Delay between subsequent jumps
+    // Set the animator component's controller in the editor to the melee controller,
+    // then set this one to the ranged controller.
+    public RuntimeAnimatorController meleeAnimationController;
+    public RuntimeAnimatorController rangedAnimationController;
 
     private bool canJump = true;
+    private bool meleeMode = true;
 
     // Tracked by CollisionEnter/Exit
     private GameObject currentPlatform;
@@ -35,13 +40,8 @@ public class PlayerController : ActorController {
             if ((moveX > 0 && !facingRight) || (moveX < 0 && facingRight)) {
                 TurnAround();
             }
-        }
-        else {
-           // Debug.Log("Not on ground");
-        }
-
-        if (IsOnGround()) {
-            // make sure to update jumpTimer before this
+            
+            // Jumping stuff
             if (Input.GetAxis("Vertical") > 0) {
                 if(canJump) {
                     // jump
@@ -50,12 +50,14 @@ public class PlayerController : ActorController {
                 }
             }
         }
+        else {
+           // Debug.Log("Not on ground");
+        }
     }
 
     protected override void Update() {
         base.Update();
         
-
     }
 
     protected override void LateUpdate() {
@@ -66,14 +68,20 @@ public class PlayerController : ActorController {
 
         // Attack
         if (Input.GetButton("Jump") /*|| Input.GetButton("Fire1")*/) {
-            // if bow is equipped && canShoot
-            // no bow yet, so don't execute this
-            if("".Equals(" ")) {
-                RangedAttack();
-            }
-            else {              // sword equipped
+            //Debug.Log("Attack!");
+            if(meleeMode) {
                 MeleeAttack();
             }
+            else {
+                RangedAttack();
+            }
+        }
+        
+        // Switching weapons
+        if (Input.GetKeyDown(KeyCode.Tab)) {
+            meleeMode = !meleeMode;
+            animator.runtimeAnimatorController = meleeMode ? meleeAnimationController : rangedAnimationController;
+            Debug.Log("Now in " + (meleeMode ? "melee" : "ranged") + " mode");
         }
     }
 
@@ -145,12 +153,6 @@ public class PlayerController : ActorController {
         sprenderer.flipY = true;
 
         // then they die from falling
-    }
-
-    // not used anymore
-    protected IEnumerator DieAfterDelay() {
-        yield return new WaitForSeconds(2);
-        base.Die();
     }
 
     public void KillPlayer()

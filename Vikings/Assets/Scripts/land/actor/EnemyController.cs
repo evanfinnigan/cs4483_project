@@ -26,6 +26,9 @@ public class EnemyController : ActorController {
     // Movement in FixedUpdate
     protected override void FixedUpdate() {
         base.FixedUpdate();
+        
+        // assume not moving - if we do move, this will be overridden.
+        animator.SetFloat(ANIM_SPEED, 0);
 
         Vector2? possiblePlayerLoc = LookForPlayer();
         if(possiblePlayerLoc != null) {
@@ -40,13 +43,14 @@ public class EnemyController : ActorController {
 
             // do a ranged attack if we just saw player this frame
             if(isRanged && possiblePlayerLoc != null) {
-                animator.SetFloat(ANIM_SPEED, 0);
                 RangedAttack();
             }
             // move to last known location
             else if(!MoveTo(( (Vector2)lastSeenPlayerLoc ).x, chaseSpeed)) {
+                Debug.Log("Moved to player at " + ((Vector2)lastSeenPlayerLoc).x);
                 // reached last known loc; this means we have lost track of player.
-                lastSeenPlayerLoc = null;
+                // Look for player in both directions. If not found, will set lastSeen to null, and return to patrol
+                lastSeenPlayerLoc = LookForPlayerInBothDirections();
             }
         }
         // Else, patrol if a patrol path is set
@@ -69,8 +73,13 @@ public class EnemyController : ActorController {
 
     }
 
-    // Move to a location. Returns if any moving was actually performed - ie returns false if already at location.
+    // Move to a location. Returns if any moving was actually required - ie returns false if already at location.
     bool MoveTo(float destX, float speed) {
+        if(!canMove) {
+            // we're not at the destination, but we can't move this frame
+            return true;
+        }
+
         float xDiff = transform.position.x - destX;
         if(xDiff > 0 && facingRight || xDiff < 0 && !facingRight) {
             TurnAround();
@@ -116,6 +125,7 @@ public class EnemyController : ActorController {
         // so, to prevent casting the ray too high, add the negative offset:
         raySource.y += projectileOffset.y;
 
+        //Debug.Log("Looking for the player while facingRight = " + facingRight);
         Vector3 rayDir = ( facingRight ? 1 : -1 ) * transform.right * visionRange;
 
         Debug.DrawRay(raySource, rayDir, Color.white);
@@ -136,6 +146,22 @@ public class EnemyController : ActorController {
         return null;
     }
 
+    Vector2? LookForPlayerInBothDirections() {
+        // Not sure if this actually works.
+
+        //Debug.Log("Looking in both directions");
+        Vector2? result = LookForPlayer();
+        if(result != null) {
+            return result;
+        }
+
+        TurnAround();
+        result = LookForPlayer();
+        // go back to original direction
+        TurnAround();
+        return result;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision) {
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
         if (player != null && player.IsAlive()) {
@@ -153,5 +179,22 @@ public class EnemyController : ActorController {
 
     private void OnCollisionStay2D(Collision2D collision) {
         OnCollisionEnter2D(collision);
+    }
+
+    protected override void Die(bool fromFalling=false) {
+        BloodSpatter blood = GetComponentInChildren<BloodSpatter>();
+
+        if(blood == null) {
+            Debug.LogError("Missing BloodSpatter on enemy " + name);
+            base.Die();
+            return;
+        }
+        sprenderer.enabled = false;
+        blood.gameObject.SendMessage("Animate");
+        rb.simulated = false;
+        canMove = false;
+
+        // Don't call base.Die() - Let the animator destroy this object
+        // base.Die(fromFalling);
     }
 }

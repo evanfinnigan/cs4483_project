@@ -34,13 +34,11 @@ public class ActorController : MonoBehaviour {
 
     protected bool canShoot = true;
     protected bool canMelee = true;
+    protected bool canMove = true;
 
-    // TODO set this properly - IE check the actor's heading to see if they are looking in the negative (left)
-    // or positive (right) direction instead of assuming they are looking right.
-    // This variable and TurnAround() are not used by enemies yet.
-    protected bool facingRight = true;
+    protected bool facingRight;
 
-    protected float projectileCooldown = 1f;
+    protected float projectileCooldown = 1.2f;
     protected float meleeCooldown = 1f;
 
     // Use this for initialization
@@ -52,6 +50,8 @@ public class ActorController : MonoBehaviour {
         meleeHitboxes = gameObject.GetComponentsInChildren<MeleeHitbox>(true);
 
         actorsHitThisFrame = new List<ActorController>();
+
+        facingRight = !sprenderer.flipX;
 
         if(projectilePrefab == null) {
             Debug.LogWarning("No projectile prefab set for actor " + name);
@@ -82,20 +82,45 @@ public class ActorController : MonoBehaviour {
     }
 
     protected virtual void RangedAttack() {
-        if(!canShoot) {
+        if(!IsAlive() || !canShoot) {
             return;
         }
 
-        ProjectileManager.instance().NewProjectile(this, facingRight);
+        // The bow attack animation will then call StartShoot, Shoot, EndShoot
+        animator.SetBool(ANIM_ATTACKING, true);
+        //Debug.Log("RangedAttack");
 
-        //start cooldown timer
+        // start cooldown timer
+        //Debug.Log("Can't shoot");
+        canShoot = false;
         StartCoroutine(ToggleCanShoot());
+        
+        //Debug.Break();
+    }
+
+    // called BY THE ANIMATION to root actor while they fire
+    public void StartShoot() {
+        animator.SetBool(ANIM_ATTACKING, false);
+        //Debug.Log("StartShoot");
+        canMove = false;
+    }
+
+    // called BY THE ANIMATION to make sure projectile spawn lines up with animation
+    public void Shoot() {
+        //Debug.Log("Shoot");
+        ProjectileManager.instance().NewProjectile(this, facingRight);
+    }
+
+    // called BY THE ANIMATION to unroot actor once they're done firing
+    public void EndShoot() {
+        //Debug.Log("EndShoot");
+        canMove = true;
     }
 
     //Toggles the canShoot variable to false for [cooldown] amount of seconds
     protected IEnumerator ToggleCanShoot() {
-        canShoot = false;
         yield return new WaitForSeconds(projectileCooldown);
+        //Debug.Log("Can shoot");
         canShoot = true;
     }
 
@@ -106,7 +131,7 @@ public class ActorController : MonoBehaviour {
         }
 
         //Debug.Log(name + " attack!");
-        animator.SetBool("attacking", true);
+        animator.SetBool(ANIM_ATTACKING, true);
 
         //Debug.Break();
         StartCoroutine(ToggleCanMelee());
@@ -131,12 +156,18 @@ public class ActorController : MonoBehaviour {
         // Debug.Log(name + " toggling melee hitboxes");
         foreach(MeleeHitbox hb in meleeHitboxes) {
             bool on = 0 != newState;
-            hb.gameObject.SetActive(on);
 
             if(on) {
-                // Adjust the hitbox's position to match the direction the actor is facing
-                hb.MoveToCorrectSideOfActor(facingRight);
-                //Debug.Log("Moved HB to " + hb.transform.localPosition);
+                // Relies on the hitboxes having names with "left" and "right"
+                if((facingRight && hb.name.ToLower().Contains("right")) 
+                    || (!facingRight && hb.name.ToLower().Contains("left"))) {
+
+                    hb.gameObject.SetActive(true);
+                }
+            }
+            else {
+                // disable all
+                hb.gameObject.SetActive(false);
             }
         }
     }

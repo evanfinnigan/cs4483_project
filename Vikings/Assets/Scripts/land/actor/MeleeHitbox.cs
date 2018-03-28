@@ -9,14 +9,8 @@ public class MeleeHitbox : MonoBehaviour {
     public int hKnockback = 200;
     public int vKnockback = 200;
 
-    // Set the hitbox's x position in the editor to match the hitbox on the sprite's right side.
-    // Then set this variable to the x position which matches the hitbox on the sprite's LEFT side.
-    // When the actor turns around, the hitbox's position will swap.
-    public float leftXLocalPosition;
-    public float rightXLocalPosition;
-
-    // The character holding the melee weapon - can be set in editor
-    public ActorController holder;
+    // The character holding the melee weapon
+    private ActorController holder;
 
     //private Collider2D collid;
 
@@ -38,11 +32,11 @@ public class MeleeHitbox : MonoBehaviour {
         holder.GetActorsHitThisFrame().Clear();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
+    private void OnTriggerEnter2D(Collider2D collision) {
         ActorController other = collision.gameObject.GetComponent<ActorController>();
         if(other != null && !holder.GetActorsHitThisFrame().Contains(other)) {
             // Someone important got hit!
-            Debug.Log(collision.gameObject.name + " got smacked by " + name);
+            Debug.Log(collision.gameObject.name + " got smacked by " + holder.name);
             other.TakeDamage(damage);
             holder.GetActorsHitThisFrame().Add(other);
 
@@ -57,23 +51,14 @@ public class MeleeHitbox : MonoBehaviour {
                 if (collision.contacts.Length > 0 && 
                     collision.contacts[0].point.x > collision.otherCollider.bounds.center.x) {*/
                 if(holder.transform.position.x < other.transform.position.x) {
-                    //Debug.Log("Knocking back 1");
+                    Debug.Log("Knocking back positive");
                     rb.AddForce(new Vector2(hKnockback, vKnockback));
                 }
                 else {
-                    //Debug.Log("Knocking back 2");
+                    Debug.Log("Knocking back negative");
                     rb.AddForce(new Vector2(-hKnockback, vKnockback));
                 }
             }
         }
     }    
-
-    public void MoveToCorrectSideOfActor(bool isFacingRight) {
-        if(isFacingRight) {
-            transform.localPosition = new Vector2(rightXLocalPosition, transform.localPosition.y);
-        }
-        else {
-            transform.localPosition = new Vector2(leftXLocalPosition, transform.localPosition.y);
-        }
-    }
 }
