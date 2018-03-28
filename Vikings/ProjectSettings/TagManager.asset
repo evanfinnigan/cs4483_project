@@ -6,6 +6,9 @@ TagManager:
   tags:
   - platform
   - enemy
+  - CanvasPause
+  - ResumeGame
+  - PauseMenu
   layers:
   - Default
   - TransparentFX
@@ -42,4 +45,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: actor
+    uniqueID: 918558275
     locked: 0

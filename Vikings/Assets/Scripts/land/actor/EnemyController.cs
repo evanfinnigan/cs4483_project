@@ -18,6 +18,8 @@ public class EnemyController : ActorController {
 
     private Vector2? lastSeenPlayerLoc;
 
+    public int goldValue = 50;
+
     // Use this for initialization
     protected override void Start() {
         base.Start();

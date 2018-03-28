@@ -21,12 +21,19 @@ public class WinBattle : MonoBehaviour
     public AudioSource ambientSound;
     public AudioClip winMusic;
 
+    public bool runFixedUpdate = true;
+
     bool won = false;
 
     private void FixedUpdate()
     {
+        if (!runFixedUpdate) {
+            return;
+        }
+
         if (enemy == null && !won)
         {
+            Debug.Log("Win win win ");
             won = true;
             Win();
         }
@@ -83,6 +90,7 @@ public class WinBattle : MonoBehaviour
 
     public void BtnContinue()
     {
+        Debug.Log("hi");
         SceneManager.LoadScene("main");
     }
 }
