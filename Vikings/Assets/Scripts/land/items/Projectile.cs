@@ -12,6 +12,8 @@ public class Projectile : MonoBehaviour {
     //[SerializeField]
     //private Animator animator;
 
+    private ActorController creator;
+
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
         if(rb == null) {
@@ -57,5 +59,13 @@ public class Projectile : MonoBehaviour {
 
         // There might be things we want to 'hit' but not destroy the bullet, then we'd have to move this.
         Destroy(gameObject);
+    }
+
+    public void SetCreator(ActorController creator_) {
+        creator = creator_;
+    }
+
+    public bool IsPlayerProjectile() {
+        return creator.GetComponent<PlayerController>() != null;
     }
 }

@@ -67,8 +67,12 @@ public class ProjectileManager : MonoBehaviour {
         projectile.transform.rotation = Quaternion.Euler(eulers);
         */
 
-        if (projectile.GetComponent<Projectile>() == null) {
+        Projectile projectileAsProj = projectile.GetComponent<Projectile>();
+        if (projectileAsProj == null) {
             Debug.LogError("Error: projectilePrefab is not a projectile!");
+        }
+        else {
+            projectileAsProj.SetCreator(shooter);
         }
 
         //Debug.Log("projectile created at " + projectile.transform.position);
