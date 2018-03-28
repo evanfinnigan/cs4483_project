@@ -12,8 +12,8 @@ public class ProjectileEars : EnemyEars {
         Vector2? sourceOfNoise = null;
         Projectile proj = obj.GetComponent<Projectile>();
         if (proj != null && proj.IsPlayerProjectile()) {
-            Debug.Break();
             // The enemy is able to determine where the bullet was fired from from the bullet's rotation.
+            // Rotate by 45 to adjust for bullet's hacky rotation
             Vector2 bulletSourceDirection = Quaternion.AngleAxis(45, Vector3.forward) * -proj.transform.right;
             Debug.Log("Shot from " + bulletSourceDirection);
 
@@ -21,7 +21,7 @@ public class ProjectileEars : EnemyEars {
             //sourceOfNoise = hit.point;
             //Debug.Log("Hit point " + sourceOfNoise);
             sourceOfNoise = bulletSourceDirection * chaseRange;
-            Debug.DrawRay(proj.transform.position, (Vector3)sourceOfNoise, Color.green, 1);
+            //Debug.DrawRay(proj.transform.position, (Vector3)sourceOfNoise, Color.green, 1);
         }
 
         if (sourceOfNoise != null) {
