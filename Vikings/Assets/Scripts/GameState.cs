@@ -40,6 +40,7 @@ public class GameState : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
+        LoadStats();
     }
 
     // Save / Load

@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class MenuButtonManager : MonoBehaviour
 {
-
     /// <summary>
     /// Allows user to select scene to load on-click.
     /// </summary>
@@ -36,9 +35,12 @@ public class MenuButtonManager : MonoBehaviour
     public void ExitGame()
     {
 #if UNITY_EDITOR
-
+        GameState state = FindObjectOfType<GameState>();
+        state.SaveStats();
         UnityEditor.EditorApplication.isPlaying = false;
 #else
+        GameState state = FindObjectOfType<GameState>();
+        state.SaveStats();
         Application.Quit();
 
 #endif
