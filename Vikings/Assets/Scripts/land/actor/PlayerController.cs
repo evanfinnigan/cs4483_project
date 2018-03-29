@@ -28,30 +28,26 @@ public class PlayerController : ActorController {
     protected override void FixedUpdate() {
         base.FixedUpdate();
 
+        float movementDampener = IsOnGround() ? 1 : 0.5f;
+
         // In the air, keep momentum, but can't influence horizontal speed
-        if (IsOnGround()) {
-            //Debug.Log("ground");
-            // Left/Right movement
-            float moveX = Input.GetAxis("Horizontal");
+        //Debug.Log("ground");
+        // Left/Right movement
+        float moveX = Input.GetAxis("Horizontal") * movementDampener;
 
-            //float dampener = onGround ? 1 : inAirMovementDampeningFactor;
-            rb.velocity = new Vector2(moveX * maxSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(moveX * maxSpeed, rb.velocity.y);
 
-            if ((moveX > 0 && !facingRight) || (moveX < 0 && facingRight)) {
-                TurnAround();
-            }
-            
-            // Jumping stuff
-            if (Input.GetAxis("Vertical") > 0) {
-                if(canJump) {
-                    // jump
-                    rb.AddForce(Vector2.up * jumpPower);
-                    StartCoroutine(ToggleCanJump());
-                }
-            }
+        if ((moveX > 0 && !facingRight) || (moveX < 0 && facingRight)) {
+            TurnAround();
         }
-        else {
-           // Debug.Log("Not on ground");
+        
+        // Jumping stuff
+        if (Input.GetAxis("Vertical") > 0) {
+            if(canJump) {
+                // jump
+                rb.AddForce(Vector2.up * jumpPower);
+                StartCoroutine(ToggleCanJump());
+            }
         }
     }
 

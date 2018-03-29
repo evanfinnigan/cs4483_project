@@ -367,7 +367,7 @@ MonoBehaviour:
   hp: 5
   deathDepth: -40
   projectileOffset: {x: 1, y: -0.5}
-  projectileSpeed: {x: 25, y: 0}
+  projectileSpeed: {x: 30, y: 0}
   projectilePrefab: {fileID: 1066230529714612, guid: 31ad160fe054b424bb8e695c6edff28b,
     type: 2}
   maxSpeed: 8
