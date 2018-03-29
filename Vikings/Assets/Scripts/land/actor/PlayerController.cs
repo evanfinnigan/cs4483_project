@@ -41,12 +41,14 @@ public class PlayerController : ActorController {
             TurnAround();
         }
         
-        // Jumping stuff
-        if (Input.GetAxis("Vertical") > 0) {
-            if(canJump) {
-                // jump
-                rb.AddForce(Vector2.up * jumpPower);
-                StartCoroutine(ToggleCanJump());
+        if(IsOnGround()) {
+            // Jumping stuff
+            if (Input.GetAxis("Vertical") > 0) {
+                if(canJump) {
+                    // jump
+                    rb.AddForce(Vector2.up * jumpPower);
+                    StartCoroutine(ToggleCanJump());
+                }
             }
         }
     }
