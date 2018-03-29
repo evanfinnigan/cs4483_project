@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 95847825401209614}
   - component: {fileID: 61662707511601798}
   - component: {fileID: 114110433990361500}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: rangedEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1382523905228462}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: 7.99, y: 0.48, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4713887075622654}
@@ -194,6 +194,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!95 &95847825401209614
 Animator:
   serializedVersion: 3
@@ -211,6 +212,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114110433990361500
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -223,6 +225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 2
+  deathDepth: -40
   projectileOffset: {x: 1, y: -0.5}
   projectileSpeed: {x: 15, y: 0}
   projectilePrefab: {fileID: 1066230529714612, guid: 31ad160fe054b424bb8e695c6edff28b,
@@ -231,8 +234,8 @@ MonoBehaviour:
   chaseSpeed: 20
   isRanged: 1
   patrolPointsX:
-  - -0.5
-  - 8
+  - 6.3
+  - 9.7
   goldValue: 50
 --- !u!114 &114256037185723868
 MonoBehaviour:
@@ -270,6 +273,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
@@ -288,8 +292,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 918558275
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0b1ac9375ff3f91428cfebd50a4bf84a, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
@@ -314,6 +318,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
