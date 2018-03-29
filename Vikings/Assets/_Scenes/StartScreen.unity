@@ -180,7 +180,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Vikings
+  m_Text: V I K I N G S
 --- !u!222 &244270614
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -342,7 +342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.34117648, b: 0.74509805, a: 1}
+  m_Color: {r: 0, g: 0.2509804, b: 0.54509807, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -875,8 +875,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -6.37, y: 135.78}
-  m_SizeDelta: {x: 202.31, y: 61.88}
+  m_AnchoredPosition: {x: -8.12, y: 129.52}
+  m_SizeDelta: {x: 261.88, y: 72.12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1771093135
 MonoBehaviour:
@@ -1080,7 +1080,7 @@ MonoBehaviour:
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 1
