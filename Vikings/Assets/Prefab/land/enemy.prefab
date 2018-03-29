@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 95885662539159992}
   - component: {fileID: 61039226426082848}
   - component: {fileID: 114411060450336562}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,8 +153,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1301120016691666}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.61, y: 0, z: 0}
+  m_LocalRotation: {x: 0.0023502167, y: -0, z: -0, w: 0.9999973}
+  m_LocalPosition: {x: 76.53, y: -0.95, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4794106050380812}
@@ -163,7 +163,7 @@ Transform:
   - {fileID: 4484417438195140}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0.26900002, y: 0, z: 0}
 --- !u!4 &4284729687492792
 Transform:
   m_ObjectHideFlags: 1
@@ -398,6 +398,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!95 &95885662539159992
 Animator:
   serializedVersion: 3
@@ -415,6 +416,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114068701179098420
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -478,6 +480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 2
+  deathDepth: -40
   projectileOffset: {x: 1, y: -0.5}
   projectileSpeed: {x: 15, y: 0}
   projectilePrefab: {fileID: 1066230529714612, guid: 31ad160fe054b424bb8e695c6edff28b,
@@ -486,8 +489,8 @@ MonoBehaviour:
   chaseSpeed: 20
   isRanged: 0
   patrolPointsX:
-  - -6.45
-  - -2.6
+  - 76
+  - 78
   goldValue: 50
 --- !u!114 &114658430135121782
 MonoBehaviour:
@@ -530,6 +533,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
@@ -548,8 +552,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 918558275
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d1e90ed8c0d83f041b0647e33668452e, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
@@ -574,6 +578,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
