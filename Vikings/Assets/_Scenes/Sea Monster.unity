@@ -6003,8 +6003,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: You have drowned. You are with Ran, ruler of the underwater realm, where
-    the drowned go to rest.
+  m_Text: You drowned. You are with Ran, ruler of the underwater realm, where the
+    drowned go to rest.
 --- !u!222 &1421517844
 CanvasRenderer:
   m_ObjectHideFlags: 0
